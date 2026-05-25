@@ -197,7 +197,7 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;min-heig
           ondrop="handleDrop(event)">
           <div class="upload-zone-icon">📷</div>
           <div class="upload-zone-txt">Click here to select photos</div>
-          <div class="upload-zone-sub">Or drag & drop — JPG, PNG supported — ఎన్నైనా upload చేయవచ్చు</div>
+          <div class="upload-zone-sub">Or drag & drop — JPG, PNG supported — Upload as many as you want</div>
         </div>
         <input type="file" id="photoInput" multiple accept="image/*" onchange="handleFiles(this.files)">
         <div class="photo-previews" id="photoPreviews"></div>
@@ -208,7 +208,7 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;min-heig
         </div>
 
         <button class="btn-submit" id="submitBtn" onclick="submitProject()">
-          Save Project → Show on Website
+          Save Project → Go Live on Website
         </button>
       </div>
     </div>
@@ -217,7 +217,7 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;min-heig
     <div id="tabList" style="display:none">
       <div class="form-card">
         <div class="form-title">All Projects</div>
-        <div class="form-sub" style="margin-bottom:20px">మీ అన్ని projects ఇక్కడ కనిపిస్తాయి</div>
+        <div class="form-sub" style="margin-bottom:20px">All your projects are listed here</div>
         <div class="projects-list" id="projectsList">
           <div class="loading-txt">Loading...</div>
         </div>
@@ -229,11 +229,11 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;min-heig
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ════════════════════════════════════════════════════
-// మీ Supabase details ఇక్కడ పెట్టండి
+// Your Supabase details here
 // ════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://usugnffkjvdcqgankkfv.supabase.co';        // మీ Project URL ఇక్కడ
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzdWduZmZranZkY3FnYW5ra2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk0OTcsImV4cCI6MjA5NTE4NTQ5N30.LfdDmiYiWHrZJeN1yLD_7O3r-ecK2BVzCR7Pc2fOss4';   // మీ anon public key ఇక్కడ
-const ADMIN_PASSWORD = 'eurobond2024';            // మీకు నచ్చిన password పెట్టండి
+const SUPABASE_URL = 'https://usugnffkjvdcqgankkfv.supabase.co';        // Your Project URL here
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzdWduZmZranZkY3FnYW5ra2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk0OTcsImV4cCI6MjA5NTE4NTQ5N30.LfdDmiYiWHrZJeN1yLD_7O3r-ecK2BVzCR7Pc2fOss4';   // Your anon public key here
+const ADMIN_PASSWORD = 'eurobond2024';            // Change this to your password
 // ════════════════════════════════════════════════════
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -332,7 +332,7 @@ async function submitProject(){
     const ext = f.name.split('.').pop();
     const path = `${name.toLowerCase().replace(/\s+/g,'-')}/${Date.now()}-${i}.${ext}`;
     const {data, error} = await sb.storage.from('project-photos').upload(path, f, {upsert:true});
-    if(error){ showStatus('Photo upload failed: '+error.message,'error'); btn.disabled=false; btn.textContent='Save Project → Show on Website'; return; }
+    if(error){ showStatus('Photo upload failed: '+error.message,'error'); btn.disabled=false; btn.textContent='Save Project → Go Live on Website'; return; }
     const {data:{publicUrl}} = sb.storage.from('project-photos').getPublicUrl(path);
     photoUrls.push(publicUrl);
     const pct = Math.round(((i+1)/selectedFiles.length)*80);
@@ -366,7 +366,7 @@ async function submitProject(){
   if(error){
     showStatus('Failed to save: '+error.message, 'error');
   } else {
-    showStatus('✅ Project saved! Website లో live అయింది!', 'success');
+    showStatus('✅ Project saved! Now live on website!', 'success');
     // Reset form
     ['fName','fLocation','fCity','fState','fQty','fGrade','fColours','fArchitect','fFabricator','fConsultant'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('fCat').value='';
@@ -376,7 +376,7 @@ async function submitProject(){
   }
 
   btn.disabled=false;
-  btn.textContent='Save Project → Show on Website';
+  btn.textContent='Save Project → Go Live on Website';
 }
 
 // ── LOAD PROJECTS ──
