@@ -9,18 +9,71 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow-x:hidden}
+
+/* ─── VIDEO SECTION ─── */
 #videoSection{position:sticky;top:0;width:100%;height:100vh;background:#000;overflow:hidden;z-index:1}
 #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .vid-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.05) 60%,rgba(5,5,15,0.85) 100%)}
-.vid-logo{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);z-index:3;text-align:center}
-.vid-logo img{height:72px;width:auto;filter:brightness(0) invert(1)}
-.vid-logo-tag{font-size:10px;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-top:10px}
-.scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.4);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+
+/* ─── CINEMATIC LOGO OVERLAY ─── */
+.logo-reveal{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.logo-reveal img{
+  height:90px;width:auto;
+  filter:brightness(0) invert(1);
+  opacity:0;
+  transform:scale(0.7);
+  transition:none;
+}
+.logo-reveal.show img{
+  animation:logoIn 1.2s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+.logo-reveal.hide img{
+  animation:logoOut 0.8s ease forwards;
+}
+@keyframes logoIn{
+  0%{opacity:0;transform:scale(0.6);filter:brightness(0) invert(1) blur(8px)}
+  60%{opacity:1;transform:scale(1.05);filter:brightness(0) invert(1) blur(0px)}
+  100%{opacity:1;transform:scale(1);filter:brightness(0) invert(1) blur(0px)}
+}
+@keyframes logoOut{
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.2)}
+}
+.logo-reveal-tag{
+  font-family:'Bebas Neue',cursive;
+  font-size:13px;letter-spacing:10px;
+  color:rgba(255,255,255,0);
+  text-transform:uppercase;margin-top:16px;
+  transition:none;
+}
+.logo-reveal.show .logo-reveal-tag{
+  animation:tagIn 1.2s ease 0.4s forwards;
+}
+@keyframes tagIn{
+  0%{color:rgba(255,255,255,0);letter-spacing:16px}
+  100%{color:rgba(255,255,255,0.6);letter-spacing:10px}
+}
+
+.scroll-hint{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:4;display:flex;flex-direction:column;align-items:center;gap:6px;
+  color:rgba(255,255,255,0.4);font-size:9px;letter-spacing:3px;text-transform:uppercase;
+}
 .scroll-line{width:1px;height:40px;background:linear-gradient(rgba(255,255,255,0.5),transparent);animation:sAnim 1.8s ease-in-out infinite}
 @keyframes sAnim{0%,100%{opacity:0.3;transform:scaleY(0.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ─── MAIN CONTENT ─── */
 #mainContent{position:relative;z-index:10;margin-top:100vh;background:#05050f}
+
+/* ─── NAV ─── */
 .topnav{background:rgba(5,5,15,0.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(26,86,160,0.25);height:56px;display:flex;align-items:center;padding:0 28px;position:sticky;top:0;z-index:100}
 .nav-logo img{height:34px;width:auto;filter:brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(190deg)}
+
+/* ─── HERO HEADER ─── */
 .sec-head{padding:52px 28px 28px;background:linear-gradient(180deg,#080818 0%,#05050f 100%);text-align:center}
 .sec-eyebrow{font-size:10px;letter-spacing:5px;color:#4a90d9;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:14px}
 .sec-eyebrow::before,.sec-eyebrow::after{content:'';width:28px;height:1px;background:#4a90d9;opacity:0.5}
@@ -30,6 +83,8 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
 .ss{text-align:center}
 .ss-n{font-family:'Bebas Neue',cursive;font-size:44px;color:#4a90d9;line-height:1}
 .ss-l{font-size:9px;letter-spacing:3px;color:rgba(240,237,232,0.4);text-transform:uppercase;margin-top:3px}
+
+/* ─── CONTROLS ─── */
 .controls{background:#0c0c20;border-top:1px solid rgba(26,86,160,0.2);border-bottom:1px solid rgba(26,86,160,0.2);padding:14px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .ctrl-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(240,237,232,0.4);margin-right:2px}
 .sel-wrap{position:relative}
@@ -45,17 +100,21 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
 .search-w input::placeholder{color:rgba(240,237,232,0.3)}
 .search-w input:focus{border-color:#4a90d9}
 .search-w span{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(240,237,232,0.35);font-size:13px}
+
+/* ─── GRID ─── */
 .grid-wrap{padding:24px 28px 60px;background:#05050f}
 .grid-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
 .grid-hd-t{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;color:#fff}
 .grid-hd-c{font-size:11px;color:rgba(240,237,232,0.4)}
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:15px}
-.pcard{background:#0a0a1e;border:1px solid rgba(26,86,160,0.22);border-radius:4px;overflow:hidden;cursor:pointer;transition:all 0.38s cubic-bezier(0.23,1,0.32,1)}
+
+/* ─── CARD ─── */
+.pcard{background:#0a0a1e;border:1px solid rgba(26,86,160,0.22);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform 0.35s cubic-bezier(0.23,1,0.32,1),border-color 0.35s,box-shadow 0.35s;will-change:transform}
 .pcard:hover{transform:translateY(-6px);border-color:rgba(74,144,217,0.6);box-shadow:0 20px 50px rgba(0,0,0,0.65),0 0 0 1px rgba(74,144,217,0.1)}
 .pcard-img{position:relative;height:205px;overflow:hidden;background:#080818}
-.pcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s cubic-bezier(0.23,1,0.32,1)}
+.pcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s cubic-bezier(0.23,1,0.32,1);will-change:transform}
 .pcard:hover .pcard-img img{transform:scale(1.08)}
-.pcard-ovl{position:absolute;inset:0;background:rgba(5,5,15,0.58);opacity:0;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center;z-index:2}
+.pcard-ovl{position:absolute;inset:0;background:rgba(5,5,15,0.55);opacity:0;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center;z-index:2}
 .pcard:hover .pcard-ovl{opacity:1}
 .ovl-txt{font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:4px;color:#fff;border:1px solid rgba(255,255,255,0.45);padding:7px 20px;border-radius:2px}
 .pbadge{position:absolute;top:10px;left:10px;z-index:3;padding:4px 10px;border-radius:2px;font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
@@ -77,6 +136,8 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
 .chip{background:rgba(26,86,160,0.15);border:1px solid rgba(74,144,217,0.28);color:#4a90d9;font-size:10px;font-weight:700;letter-spacing:0.5px;padding:2px 7px;border-radius:2px}
 .pfoot{padding:8px 15px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center}
 .pview{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#4a90d9;font-weight:700}
+
+/* ─── PROJECT LIGHTBOX ─── */
 #lb{display:none;position:fixed;inset:0;background:rgba(2,2,12,0.97);z-index:500;overflow-y:auto;justify-content:center;padding:20px 14px 40px}
 #lb.open{display:flex}
 .lb-panel{background:#0c0c20;border:1px solid rgba(26,86,160,0.28);border-radius:5px;width:100%;max-width:880px;margin:0 auto;overflow:hidden;height:fit-content}
@@ -90,8 +151,8 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
 .lb-s{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;padding:9px 11px}
 .lb-sl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:3px}
 .lb-sv{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
-.lb-main{padding:0 22px 8px}
-.lb-main img{width:100%;height:320px;object-fit:cover;border-radius:4px;display:block;transition:opacity 0.25s ease}
+.lb-main{padding:0 22px 8px;position:relative}
+.lb-main img{width:100%;height:340px;object-fit:cover;border-radius:4px;display:block;transition:opacity 0.25s ease;cursor:zoom-in}
 .lb-thumbs{padding:0 22px 14px;display:flex;gap:7px;overflow-x:auto}
 .lb-thumbs::-webkit-scrollbar{height:3px}
 .lb-thumbs::-webkit-scrollbar-thumb{background:#1a56a0;border-radius:2px}
@@ -105,25 +166,66 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
 .lb-vid{margin:0 22px 22px;border-radius:4px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.06)}
 .lb-vid video{width:100%;display:block}
 .lb-vid-ph{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(240,237,232,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:24px}
+
+/* ─── FULLSCREEN PHOTO VIEWER ─── */
+#fsViewer{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);
+  z-index:1000;align-items:center;justify-content:center;
+}
+#fsViewer.open{display:flex}
+#fsImg{
+  max-width:92vw;max-height:92vh;
+  object-fit:contain;border-radius:4px;
+  animation:fsIn 0.25s ease;
+}
+@keyframes fsIn{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)}}
+.fs-close{
+  position:fixed;top:20px;right:24px;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;width:42px;height:42px;border-radius:50%;
+  font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;z-index:10;
+}
+.fs-close:hover{background:rgba(255,255,255,0.18)}
+.fs-prev,.fs-next{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  color:#fff;width:46px;height:46px;border-radius:50%;
+  font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;z-index:10;
+}
+.fs-prev{left:20px}
+.fs-next{right:20px}
+.fs-prev:hover,.fs-next:hover{background:rgba(255,255,255,0.18)}
+.fs-counter{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,0.5);font-family:'Rajdhani',sans-serif;
+  font-size:12px;letter-spacing:3px;
+}
+
 .empty-st{grid-column:1/-1;text-align:center;padding:70px 20px;color:rgba(240,237,232,0.3);font-size:12px;letter-spacing:3px;text-transform:uppercase}
-@media(max-width:640px){.sec-stats{gap:28px}.controls{padding:11px 14px}.grid-wrap{padding:18px 14px 40px}.lb-meta{grid-template-columns:1fr 1fr}.lb-main img{height:200px}}
+@media(max-width:640px){.sec-stats{gap:28px}.controls{padding:11px 14px}.grid-wrap{padding:18px 14px 40px}.lb-meta{grid-template-columns:1fr 1fr}.lb-main img{height:220px}}
 </style>
 </head>
 <body>
+
+<!-- VIDEO -->
 <div id="videoSection">
   <video id="heroVideo" autoplay muted playsinline loop>
     <source src="assets/intro.mp4" type="video/mp4">
   </video>
   <div class="vid-overlay"></div>
-  <div class="vid-logo">
-    <img src="assets/logo.png" alt="Eurobond ACP">
-    <div class="vid-logo-tag">Bonds That Last</div>
+  <div class="logo-reveal" id="logoReveal">
+    <img src="assets/logo.png" alt="Eurobond ACP" id="revealLogo">
+    <div class="logo-reveal-tag">Bonds That Last</div>
   </div>
   <div class="scroll-hint">
-    <span>Scroll to explore</span>
+    <span>Scroll to Explore</span>
     <div class="scroll-line"></div>
   </div>
 </div>
+
+<!-- MAIN -->
 <div id="mainContent">
   <nav class="topnav">
     <div class="nav-logo"><img src="assets/logo.png" alt="Eurobond ACP"></div>
@@ -139,16 +241,12 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
   </div>
   <div class="controls">
     <span class="ctrl-lbl">Location</span>
-    <div class="sel-wrap">
-      <select id="locationDrop" onchange="applyFilters()">
-        <option value="all">All Locations</option>
-      </select>
-    </div>
+    <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters()"><option value="all">All Locations</option></select></div>
     <span class="ctrl-lbl" style="margin-left:12px">Category</span>
     <div id="catTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     <div class="search-w">
       <span>&#128269;</span>
-      <input type="text" id="srch" placeholder="Search..." oninput="applyFilters()">
+      <input type="text" id="srch" placeholder="Search project..." oninput="applyFilters()">
     </div>
   </div>
   <div class="grid-wrap">
@@ -159,49 +257,101 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
     <div class="proj-grid" id="pGrid"><div class="empty-st">Loading projects...</div></div>
   </div>
 </div>
+
+<!-- PROJECT LIGHTBOX -->
 <div id="lb"><div class="lb-panel" id="lbPanel"></div></div>
+
+<!-- FULLSCREEN PHOTO VIEWER -->
+<div id="fsViewer">
+  <button class="fs-close" onclick="closeFs()">&#10005;</button>
+  <button class="fs-prev" onclick="fsNav(-1)">&#8592;</button>
+  <img id="fsImg" src="" alt="">
+  <button class="fs-next" onclick="fsNav(1)">&#8594;</button>
+  <div class="fs-counter" id="fsCounter"></div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ════════════════════════════════════════════════════
-// మీ Supabase details ఇక్కడ పెట్టండి
-// ════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://usugnffkjvdcqgankkfv.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzdWduZmZranZkY3FnYW5ra2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk0OTcsImV4cCI6MjA5NTE4NTQ5N30.LfdDmiYiWHrZJeN1yLD_7O3r-ecK2BVzCR7Pc2fOss4';
-// ════════════════════════════════════════════════════
-
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const BADGE={commercial:'bc',industrial:'bi',residential:'br',convention:'bn',airport:'ba',metro:'bm',hospital:'bh',hospitality:'bh'};
 const LABEL={commercial:'Commercial',industrial:'Industrial',residential:'Residential',convention:'Convention',airport:'Airport',metro:'Metro',hospital:'Hospital',hospitality:'Hospitality'};
 
-let allProjects=[], curLocation='all', curCat='all', curSearch='', _lbProject=null, _activeThumb=0;
+let allProjects=[],curLocation='all',curCat='all',curSearch='';
+let _lbProject=null,_activeThumb=0;
+let _fsPhotos=[],_fsIdx=0;
 
-function animNum(el,to,sfx=''){
+/* ── CINEMATIC LOGO REVEAL ── */
+(function(){
+  const vid=document.getElementById('heroVideo');
+  const reveal=document.getElementById('logoReveal');
+  let logoShown=false;
+
+  function showLogo(){
+    if(logoShown) return;
+    logoShown=true;
+    reveal.classList.remove('hide');
+    reveal.classList.add('show');
+    setTimeout(()=>{
+      reveal.classList.remove('show');
+      reveal.classList.add('hide');
+      setTimeout(()=>{
+        reveal.classList.remove('hide');
+        logoShown=false;
+      },900);
+    },3000);
+  }
+
+  // Show on every loop — timeupdate trick
+  let lastTime=0;
+  vid.addEventListener('timeupdate',()=>{
+    const t=vid.currentTime;
+    const d=vid.duration||1;
+    // Show logo when video nears end (last 4 seconds) or at start
+    if((t < 1 && lastTime > 2) || (d - t < 4 && d - lastTime > 4)){
+      showLogo();
+    }
+    lastTime=t;
+  });
+
+  // Show immediately on load
+  vid.addEventListener('loadeddata',()=>setTimeout(showLogo,800));
+})();
+
+/* ── STATS COUNTER ── */
+function animNum(el,to){
   let n=0;const s=Math.max(1,Math.ceil(to/40));
-  const iv=setInterval(()=>{n=Math.min(n+s,to);el.textContent=n+sfx;if(n>=to)clearInterval(iv)},25);
+  const iv=setInterval(()=>{n=Math.min(n+s,to);el.textContent=n;if(n>=to)clearInterval(iv)},25);
 }
+const statsObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const locs=[...new Set(allProjects.map(p=>p.location))].length;
+      const sqft=allProjects.reduce((a,p)=>{const n=parseFloat((p.qty||'').replace(/[^0-9.]/g,''));return a+(isNaN(n)?0:n)},0);
+      animNum(document.getElementById('sP'),allProjects.length);
+      animNum(document.getElementById('sC'),locs);
+      animNum(document.getElementById('sS'),Math.round(sqft/100000));
+      statsObs.disconnect();
+    }
+  });
+},{threshold:0.3});
 
+/* ── LOAD PROJECTS ── */
 async function loadProjects(){
-  const {data,error}=await sb.from('projects').select('*').order('created_at',{ascending:false});
-  if(error){document.getElementById('pGrid').innerHTML='<div class="empty-st">Error loading projects</div>';return;}
+  const{data,error}=await sb.from('projects').select('*').order('created_at',{ascending:false});
+  if(error){document.getElementById('pGrid').innerHTML='<div class="empty-st">Error loading. Please refresh.</div>';return}
   allProjects=data||[];
-  updateStats();
   buildFilters();
   renderGrid();
-}
-
-function updateStats(){
-  const locs=[...new Set(allProjects.map(p=>p.location))].length;
-  const sqft=allProjects.reduce((a,p)=>{const n=parseFloat((p.qty||'').replace(/[^0-9.]/g,''));return a+(isNaN(n)?0:n)},0);
-  animNum(document.getElementById('sP'),allProjects.length);
-  animNum(document.getElementById('sC'),locs);
-  animNum(document.getElementById('sS'),Math.round(sqft/100000));
+  statsObs.observe(document.querySelector('.sec-head'));
 }
 
 function buildFilters(){
-  const locations=['all',...[...new Set(allProjects.map(p=>p.location))].sort()];
+  const locs=['all',...[...new Set(allProjects.map(p=>p.location))].sort()];
   const rd=document.getElementById('locationDrop');
-  rd.innerHTML=locations.map(r=>`<option value="${r}">${r==='all'?'All Locations':r}</option>`).join('');
+  rd.innerHTML=locs.map(r=>`<option value="${r}">${r==='all'?'All Locations':r}</option>`).join('');
   const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
   const ct=document.getElementById('catTabs');
   ct.innerHTML='';
@@ -246,7 +396,7 @@ function renderGrid(){
       <div class="pcard-body">
         <div class="pregion">${p.location||''}</div>
         <div class="pname">${p.name}</div>
-        <div class="ploc">&#128205; ${p.location}, ${p.city}</div>
+        <div class="ploc">&#128205; ${p.location}, ${p.city||''}</div>
         <div class="prow">
           <div class="pdet"><div class="pdet-l">QTY</div><div class="pdet-v">${p.qty||'—'}</div></div>
           <div class="pdet"><div class="pdet-l">Grade</div><div class="pdet-v">${p.grade||'—'}</div></div>
@@ -261,17 +411,21 @@ function renderGrid(){
     </div>`).join('');
 }
 
+/* ── PROJECT LIGHTBOX ── */
 function openGallery(id){
   const p=allProjects.find(x=>x.id===id);
   if(!p)return;
   _lbProject=p;_activeThumb=0;
-  const thumbs=(p.photos||[]).map((ph,i)=>`<div class="lb-thumb${i===0?' active':''}" onclick="switchPhoto(${i})"><img src="${ph}" alt="" loading="lazy"></div>`).join('');
+  const thumbs=(p.photos||[]).map((ph,i)=>`
+    <div class="lb-thumb${i===0?' active':''}" onclick="switchPhoto(${i})">
+      <img src="${ph}" alt="" loading="lazy">
+    </div>`).join('');
   document.getElementById('lbPanel').innerHTML=`
     <div class="lb-top">
       <div>
         <div><span class="lb-badge ${BADGE[p.category]||'bc'}">${LABEL[p.category]||p.category}</span></div>
         <div class="lb-name">${p.name}</div>
-        <div class="lb-loc">&#128205; ${p.location}, ${p.city}, ${p.state||''}</div>
+        <div class="lb-loc">&#128205; ${p.location}, ${p.city||''}, ${p.state||''}</div>
       </div>
       <button class="lb-x" onclick="closeLb()">&#10005;</button>
     </div>
@@ -281,10 +435,17 @@ function openGallery(id){
       <div class="lb-s"><div class="lb-sl">Architect</div><div class="lb-sv">${p.architect||'—'}</div></div>
       <div class="lb-s"><div class="lb-sl">Fabricator</div><div class="lb-sv">${p.fabricator||'—'}</div></div>
     </div>
-    <div class="lb-main"><img id="mainImg" src="${(p.photos||[])[0]||''}" alt="${p.name}"></div>
+    <div class="lb-main">
+      <img id="mainImg" src="${(p.photos||[])[0]||''}" alt="${p.name}" onclick="openFs(0)">
+    </div>
     <div class="lb-thumbs">${thumbs}</div>
-    <div class="lb-colours"><div class="lb-cl">Colour Codes Applied</div><div class="lb-chips">${(p.colours||[]).map(c=>`<div class="lb-chip">${c}</div>`).join('')}</div></div>
-    <div class="lb-vid">${p.video?`<video controls><source src="${p.video}"></video>`:`<div class="lb-vid-ph">&#127909;<br><span>No video added</span></div>`}</div>`;
+    <div class="lb-colours">
+      <div class="lb-cl">Colour Codes Applied</div>
+      <div class="lb-chips">${(p.colours||[]).map(c=>`<div class="lb-chip">${c}</div>`).join('')}</div>
+    </div>
+    <div class="lb-vid">
+      ${p.video?`<video controls><source src="${p.video}" type="video/mp4"></video>`:`<div class="lb-vid-ph">&#127909;<br><span>No video added</span></div>`}
+    </div>`;
   const lb=document.getElementById('lb');
   lb.classList.add('open');
   lb.scrollTop=0;
@@ -294,18 +455,57 @@ function switchPhoto(idx){
   _activeThumb=idx;
   const img=document.getElementById('mainImg');
   img.style.opacity='0';
-  setTimeout(()=>{img.src=(_lbProject.photos||[])[idx];img.style.opacity='1'},220);
+  setTimeout(()=>{
+    img.src=(_lbProject.photos||[])[idx];
+    img.onclick=()=>openFs(idx);
+    img.style.opacity='1';
+  },200);
   document.querySelectorAll('.lb-thumb').forEach((el,i)=>el.classList.toggle('active',i===idx));
 }
 
 function closeLb(){document.getElementById('lb').classList.remove('open')}
-document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)closeLb()});
+
+/* ── FULLSCREEN VIEWER ── */
+function openFs(idx){
+  _fsPhotos=_lbProject.photos||[];
+  _fsIdx=idx;
+  renderFs();
+  document.getElementById('fsViewer').classList.add('open');
+}
+
+function renderFs(){
+  const img=document.getElementById('fsImg');
+  img.style.opacity='0';
+  setTimeout(()=>{
+    img.src=_fsPhotos[_fsIdx];
+    img.style.opacity='1';
+  },100);
+  document.getElementById('fsCounter').textContent=(_fsIdx+1)+' / '+_fsPhotos.length;
+}
+
+function fsNav(dir){
+  _fsIdx=(_fsIdx+dir+_fsPhotos.length)%_fsPhotos.length;
+  renderFs();
+}
+
+function closeFs(){document.getElementById('fsViewer').classList.remove('open')}
+
+/* ── KEYBOARD ── */
 document.addEventListener('keydown',e=>{
+  if(document.getElementById('fsViewer').classList.contains('open')){
+    if(e.key==='Escape')closeFs();
+    if(e.key==='ArrowRight')fsNav(1);
+    if(e.key==='ArrowLeft')fsNav(-1);
+    return;
+  }
   if(e.key==='Escape')closeLb();
   if(!_lbProject)return;
   if(e.key==='ArrowRight')switchPhoto(Math.min(_activeThumb+1,(_lbProject.photos||[]).length-1));
   if(e.key==='ArrowLeft')switchPhoto(Math.max(_activeThumb-1,0));
 });
+
+document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)closeLb()});
+document.getElementById('fsViewer').addEventListener('click',function(e){if(e.target===this)closeFs()});
 
 loadProjects();
 </script>
