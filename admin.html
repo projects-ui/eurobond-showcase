@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurobond ACP — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;min-height:100vh}
+
+/* ── LOGIN ── */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05050f}
+.login-box{background:#0c0c20;border:1px solid rgba(26,86,160,0.3);border-radius:8px;padding:40px;width:100%;max-width:380px;text-align:center}
+.login-logo{font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:4px;color:#fff;margin-bottom:6px}
+.login-logo span{color:#4a90d9}
+.login-sub{font-size:11px;letter-spacing:3px;color:rgba(240,237,232,0.4);text-transform:uppercase;margin-bottom:32px}
+.login-box input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(26,86,160,0.3);color:#f0ede8;font-family:'Rajdhani',sans-serif;font-size:14px;padding:12px 16px;border-radius:4px;outline:none;margin-bottom:12px;transition:border-color 0.2s}
+.login-box input:focus{border-color:#4a90d9}
+.login-box input::placeholder{color:rgba(240,237,232,0.3)}
+.btn-primary{width:100%;background:#1a56a0;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:13px;border-radius:4px;cursor:pointer;transition:background 0.2s;margin-top:4px}
+.btn-primary:hover{background:#2468b8}
+.login-err{color:#e74c3c;font-size:12px;margin-top:10px;display:none}
+
+/* ── ADMIN LAYOUT ── */
+#adminPanel{display:none;min-height:100vh}
+.admin-nav{background:#0c0c20;border-bottom:1px solid rgba(26,86,160,0.25);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100}
+.admin-nav-logo{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:3px;color:#fff}
+.admin-nav-logo span{color:#4a90d9}
+.admin-nav-right{display:flex;align-items:center;gap:16px}
+.nav-tag{font-size:10px;letter-spacing:2px;color:rgba(240,237,232,0.4);text-transform:uppercase}
+.btn-logout{background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(240,237,232,0.5);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:2px;cursor:pointer;transition:all 0.2s}
+.btn-logout:hover{border-color:#e74c3c;color:#e74c3c}
+
+.admin-body{max-width:900px;margin:0 auto;padding:36px 24px 60px}
+
+/* ── TABS ── */
+.admin-tabs{display:flex;gap:8px;margin-bottom:28px}
+.atab{background:transparent;border:1px solid rgba(26,86,160,0.3);color:rgba(240,237,232,0.45);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;cursor:pointer;transition:all 0.2s}
+.atab:hover{border-color:#4a90d9;color:#4a90d9}
+.atab.on{background:#1a56a0;border-color:#1a56a0;color:#fff}
+
+/* ── FORM ── */
+.form-card{background:#0c0c20;border:1px solid rgba(26,86,160,0.25);border-radius:6px;padding:28px}
+.form-title{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;color:#fff;margin-bottom:6px}
+.form-sub{font-size:12px;color:rgba(240,237,232,0.35);letter-spacing:1px;margin-bottom:24px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(240,237,232,0.4)}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(26,86,160,0.3);color:#f0ede8;font-family:'Rajdhani',sans-serif;font-size:13px;padding:10px 13px;border-radius:3px;outline:none;transition:border-color 0.2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#4a90d9}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(240,237,232,0.25)}
+.form-group select option{background:#0c0c20;color:#f0ede8}
+.form-group textarea{resize:vertical;min-height:70px}
+
+/* ── PHOTO UPLOAD ── */
+.upload-zone{border:2px dashed rgba(26,86,160,0.4);border-radius:6px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(26,86,160,0.03);margin-bottom:14px}
+.upload-zone:hover,.upload-zone.drag{border-color:#4a90d9;background:rgba(26,86,160,0.08)}
+.upload-zone-icon{font-size:36px;margin-bottom:12px}
+.upload-zone-txt{font-size:13px;color:rgba(240,237,232,0.5);letter-spacing:1px}
+.upload-zone-sub{font-size:11px;color:rgba(240,237,232,0.25);margin-top:6px;letter-spacing:1px}
+#photoInput{display:none}
+.photo-previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:14px}
+.preview-item{position:relative;border-radius:4px;overflow:hidden;height:80px;background:#080818}
+.preview-item img{width:100%;height:100%;object-fit:cover}
+.preview-remove{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.8);color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* ── PROGRESS ── */
+.progress-wrap{display:none;margin-bottom:14px}
+.progress-label{font-size:11px;color:rgba(240,237,232,0.4);letter-spacing:1px;margin-bottom:6px}
+.progress-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:#4a90d9;border-radius:2px;transition:width 0.3s;width:0}
+
+/* ── STATUS ── */
+.status-msg{display:none;padding:12px 16px;border-radius:4px;font-size:12px;letter-spacing:1px;margin-bottom:14px}
+.status-success{background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);color:#2ecc71}
+.status-error{background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);color:#e74c3c}
+
+.btn-submit{background:#1a56a0;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:13px 28px;border-radius:3px;cursor:pointer;transition:all 0.2s}
+.btn-submit:hover{background:#2468b8}
+.btn-submit:disabled{background:#333;cursor:not-allowed}
+
+/* ── PROJECTS LIST ── */
+.projects-list{display:flex;flex-direction:column;gap:10px}
+.proj-item{background:#0c0c20;border:1px solid rgba(26,86,160,0.25);border-radius:4px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center}
+.proj-item-left{display:flex;flex-direction:column;gap:3px}
+.proj-item-name{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:1.5px;color:#fff}
+.proj-item-meta{font-size:11px;color:rgba(240,237,232,0.4);letter-spacing:1px}
+.proj-item-right{display:flex;gap:8px}
+.btn-delete{background:transparent;border:1px solid rgba(231,76,60,0.3);color:rgba(231,76,60,0.7);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:2px;cursor:pointer;transition:all 0.2s}
+.btn-delete:hover{border-color:#e74c3c;color:#e74c3c}
+.loading-txt{text-align:center;padding:40px;color:rgba(240,237,232,0.3);font-size:12px;letter-spacing:3px;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">EURO<span>BOND</span> ACP</div>
+    <div class="login-sub">Admin Panel</div>
+    <input type="password" id="loginPass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-primary" onclick="doLogin()">Login</button>
+    <div class="login-err" id="loginErr">Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <nav class="admin-nav">
+    <div class="admin-nav-logo">EURO<span>BOND</span> ACP</div>
+    <div class="admin-nav-right">
+      <span class="nav-tag">Admin Panel</span>
+      <button class="btn-logout" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="admin-body">
+    <div class="admin-tabs">
+      <button class="atab on" onclick="showTab('add',this)">Add New Project</button>
+      <button class="atab" onclick="showTab('list',this)">All Projects</button>
+    </div>
+
+    <!-- ADD PROJECT TAB -->
+    <div id="tabAdd">
+      <div class="form-card">
+        <div class="form-title">Add New Project</div>
+        <div class="form-sub">Fill all details and upload photos — automatically shows on website</div>
+
+        <div id="statusMsg" class="status-msg"></div>
+
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Project Name *</label>
+            <input type="text" id="fName" placeholder="e.g. AMR Tech Park">
+          </div>
+          <div class="form-group">
+            <label>Location / Area *</label>
+            <input type="text" id="fLocation" placeholder="e.g. Hosur Road">
+          </div>
+          <div class="form-group">
+            <label>City *</label>
+            <input type="text" id="fCity" placeholder="e.g. Bangalore">
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" id="fState" placeholder="e.g. Karnataka">
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="fCat">
+              <option value="">Select category</option>
+              <option value="commercial">Commercial</option>
+              <option value="convention">Convention</option>
+              <option value="industrial">Industrial</option>
+              <option value="residential">Residential</option>
+              <option value="hospital">Hospital</option>
+              <option value="airport">Airport</option>
+              <option value="metro">Metro</option>
+              <option value="hospitality">Hospitality</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Quantity (Sqft)</label>
+            <input type="text" id="fQty" placeholder="e.g. 26,000 Sft">
+          </div>
+          <div class="form-group">
+            <label>Grade</label>
+            <input type="text" id="fGrade" placeholder="e.g. 4T / 4P">
+          </div>
+          <div class="form-group">
+            <label>Colour Codes (comma separated)</label>
+            <input type="text" id="fColours" placeholder="e.g. ER 101, ER 126, ER 210">
+          </div>
+          <div class="form-group">
+            <label>Architect</label>
+            <input type="text" id="fArchitect" placeholder="Architect name">
+          </div>
+          <div class="form-group">
+            <label>Fabricator</label>
+            <input type="text" id="fFabricator" placeholder="Fabricator name">
+          </div>
+          <div class="form-group full">
+            <label>Consultant</label>
+            <input type="text" id="fConsultant" placeholder="Consultant name">
+          </div>
+        </div>
+
+        <!-- PHOTO UPLOAD -->
+        <div class="form-group" style="margin-bottom:14px">
+          <label>Project Photos *</label>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('photoInput').click()"
+          ondragover="event.preventDefault();this.classList.add('drag')"
+          ondragleave="this.classList.remove('drag')"
+          ondrop="handleDrop(event)">
+          <div class="upload-zone-icon">📷</div>
+          <div class="upload-zone-txt">Click here to select photos</div>
+          <div class="upload-zone-sub">Or drag & drop — JPG, PNG supported — ఎన్నైనా upload చేయవచ్చు</div>
+        </div>
+        <input type="file" id="photoInput" multiple accept="image/*" onchange="handleFiles(this.files)">
+        <div class="photo-previews" id="photoPreviews"></div>
+
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-label" id="progressLabel">Uploading... 0%</div>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <button class="btn-submit" id="submitBtn" onclick="submitProject()">
+          Save Project → Show on Website
+        </button>
+      </div>
+    </div>
+
+    <!-- PROJECTS LIST TAB -->
+    <div id="tabList" style="display:none">
+      <div class="form-card">
+        <div class="form-title">All Projects</div>
+        <div class="form-sub" style="margin-bottom:20px">మీ అన్ని projects ఇక్కడ కనిపిస్తాయి</div>
+        <div class="projects-list" id="projectsList">
+          <div class="loading-txt">Loading...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ════════════════════════════════════════════════════
+// మీ Supabase details ఇక్కడ పెట్టండి
+// ════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://usugnffkjvdcqgankkfv.supabase.co';        // మీ Project URL ఇక్కడ
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzdWduZmZranZkY3FnYW5ra2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk0OTcsImV4cCI6MjA5NTE4NTQ5N30.LfdDmiYiWHrZJeN1yLD_7O3r-ecK2BVzCR7Pc2fOss4';   // మీ anon public key ఇక్కడ
+const ADMIN_PASSWORD = 'eurobond2024';            // మీకు నచ్చిన password పెట్టండి
+// ════════════════════════════════════════════════════
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let selectedFiles = [];
+
+// ── LOGIN ──
+function doLogin(){
+  const pass = document.getElementById('loginPass').value;
+  if(pass === ADMIN_PASSWORD){
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    sessionStorage.setItem('admin','1');
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+function doLogout(){
+  sessionStorage.removeItem('admin');
+  location.reload();
+}
+if(sessionStorage.getItem('admin')==='1'){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminPanel').style.display='block';
+}
+
+// ── TABS ──
+function showTab(tab, btn){
+  document.getElementById('tabAdd').style.display = tab==='add'?'block':'none';
+  document.getElementById('tabList').style.display = tab==='list'?'block':'none';
+  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(tab==='list') loadProjects();
+}
+
+// ── FILE HANDLING ──
+function handleFiles(files){
+  for(const f of files) selectedFiles.push(f);
+  renderPreviews();
+}
+function handleDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag');
+  handleFiles(e.dataTransfer.files);
+}
+function renderPreviews(){
+  const wrap = document.getElementById('photoPreviews');
+  wrap.innerHTML = selectedFiles.map((f,i)=>`
+    <div class="preview-item">
+      <img src="${URL.createObjectURL(f)}" alt="">
+      <button class="preview-remove" onclick="removePhoto(${i})">✕</button>
+    </div>`).join('');
+}
+function removePhoto(idx){
+  selectedFiles.splice(idx,1);
+  renderPreviews();
+}
+
+// ── SHOW STATUS ──
+function showStatus(msg, type='success'){
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.className = 'status-msg status-'+type;
+  el.style.display = 'block';
+  if(type==='success') setTimeout(()=>el.style.display='none', 4000);
+}
+
+// ── SUBMIT PROJECT ──
+async function submitProject(){
+  const name = document.getElementById('fName').value.trim();
+  const location = document.getElementById('fLocation').value.trim();
+  const city = document.getElementById('fCity').value.trim();
+  const cat = document.getElementById('fCat').value;
+
+  if(!name || !location || !city || !cat){
+    showStatus('Please fill Name, Location, City, Category!', 'error');
+    return;
+  }
+  if(selectedFiles.length === 0){
+    showStatus('Please select at least 1 photo!', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Uploading...';
+
+  // Upload photos
+  const photoUrls = [];
+  const prog = document.getElementById('progressWrap');
+  const fill = document.getElementById('progressFill');
+  const lbl = document.getElementById('progressLabel');
+  prog.style.display = 'block';
+
+  for(let i=0; i<selectedFiles.length; i++){
+    const f = selectedFiles[i];
+    const ext = f.name.split('.').pop();
+    const path = `${name.toLowerCase().replace(/\s+/g,'-')}/${Date.now()}-${i}.${ext}`;
+    const {data, error} = await sb.storage.from('project-photos').upload(path, f, {upsert:true});
+    if(error){ showStatus('Photo upload failed: '+error.message,'error'); btn.disabled=false; btn.textContent='Save Project → Show on Website'; return; }
+    const {data:{publicUrl}} = sb.storage.from('project-photos').getPublicUrl(path);
+    photoUrls.push(publicUrl);
+    const pct = Math.round(((i+1)/selectedFiles.length)*80);
+    fill.style.width = pct+'%';
+    lbl.textContent = `Uploading photos... ${pct}%`;
+  }
+
+  // Save to database
+  fill.style.width = '90%';
+  lbl.textContent = 'Saving project details...';
+
+  const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const {error} = await sb.from('projects').insert({
+    name,
+    location,
+    city,
+    state: document.getElementById('fState').value.trim(),
+    category: cat,
+    qty: document.getElementById('fQty').value.trim(),
+    grade: document.getElementById('fGrade').value.trim(),
+    colours,
+    architect: document.getElementById('fArchitect').value.trim(),
+    fabricator: document.getElementById('fFabricator').value.trim(),
+    consultant: document.getElementById('fConsultant').value.trim(),
+    photos: photoUrls,
+    video: null
+  });
+
+  fill.style.width = '100%';
+
+  if(error){
+    showStatus('Failed to save: '+error.message, 'error');
+  } else {
+    showStatus('✅ Project saved! Website లో live అయింది!', 'success');
+    // Reset form
+    ['fName','fLocation','fCity','fState','fQty','fGrade','fColours','fArchitect','fFabricator','fConsultant'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fCat').value='';
+    selectedFiles=[];
+    renderPreviews();
+    setTimeout(()=>{prog.style.display='none';fill.style.width='0'},1000);
+  }
+
+  btn.disabled=false;
+  btn.textContent='Save Project → Show on Website';
+}
+
+// ── LOAD PROJECTS ──
+async function loadProjects(){
+  const list = document.getElementById('projectsList');
+  list.innerHTML = '<div class="loading-txt">Loading...</div>';
+  const {data, error} = await sb.from('projects').select('*').order('created_at',{ascending:false});
+  if(error){ list.innerHTML='<div class="loading-txt">Error loading projects</div>'; return; }
+  if(!data.length){ list.innerHTML='<div class="loading-txt">No projects yet</div>'; return; }
+  list.innerHTML = data.map(p=>`
+    <div class="proj-item">
+      <div class="proj-item-left">
+        <div class="proj-item-name">${p.name}</div>
+        <div class="proj-item-meta">${p.location}, ${p.city} &nbsp;|&nbsp; ${p.category} &nbsp;|&nbsp; ${(p.photos||[]).length} photos</div>
+      </div>
+      <div class="proj-item-right">
+        <button class="btn-delete" onclick="deleteProject(${p.id},'${p.name}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── DELETE PROJECT ──
+async function deleteProject(id, name){
+  if(!confirm(`Delete "${name}"?`)) return;
+  await sb.from('projects').delete().eq('id',id);
+  loadProjects();
+}
+</script>
+</body>
+</html>

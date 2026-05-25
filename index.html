@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurobond ACP — Project Showcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow-x:hidden}
+#videoSection{position:sticky;top:0;width:100%;height:100vh;background:#000;overflow:hidden;z-index:1}
+#heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.05) 60%,rgba(5,5,15,0.85) 100%)}
+.vid-logo{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);z-index:3;text-align:center}
+.vid-logo img{height:72px;width:auto;filter:brightness(0) invert(1)}
+.vid-logo-tag{font-size:10px;letter-spacing:6px;color:rgba(255,255,255,0.55);text-transform:uppercase;margin-top:10px}
+.scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.4);font-size:9px;letter-spacing:3px;text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:linear-gradient(rgba(255,255,255,0.5),transparent);animation:sAnim 1.8s ease-in-out infinite}
+@keyframes sAnim{0%,100%{opacity:0.3;transform:scaleY(0.7)}50%{opacity:1;transform:scaleY(1)}}
+#mainContent{position:relative;z-index:10;margin-top:100vh;background:#05050f}
+.topnav{background:rgba(5,5,15,0.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(26,86,160,0.25);height:56px;display:flex;align-items:center;padding:0 28px;position:sticky;top:0;z-index:100}
+.nav-logo img{height:34px;width:auto;filter:brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(190deg)}
+.sec-head{padding:52px 28px 28px;background:linear-gradient(180deg,#080818 0%,#05050f 100%);text-align:center}
+.sec-eyebrow{font-size:10px;letter-spacing:5px;color:#4a90d9;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:14px}
+.sec-eyebrow::before,.sec-eyebrow::after{content:'';width:28px;height:1px;background:#4a90d9;opacity:0.5}
+.sec-title{font-family:'Bebas Neue',cursive;font-size:clamp(36px,6vw,64px);letter-spacing:4px;color:#fff;margin-bottom:28px}
+.sec-title span{color:#4a90d9}
+.sec-stats{display:flex;gap:52px;justify-content:center}
+.ss{text-align:center}
+.ss-n{font-family:'Bebas Neue',cursive;font-size:44px;color:#4a90d9;line-height:1}
+.ss-l{font-size:9px;letter-spacing:3px;color:rgba(240,237,232,0.4);text-transform:uppercase;margin-top:3px}
+.controls{background:#0c0c20;border-top:1px solid rgba(26,86,160,0.2);border-bottom:1px solid rgba(26,86,160,0.2);padding:14px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ctrl-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(240,237,232,0.4);margin-right:2px}
+.sel-wrap{position:relative}
+.sel-wrap select{appearance:none;background:rgba(255,255,255,0.04);border:1px solid rgba(26,86,160,0.3);color:#f0ede8;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 28px 8px 12px;border-radius:2px;cursor:pointer;outline:none;min-width:150px;transition:border-color 0.2s}
+.sel-wrap select:hover{border-color:#4a90d9;color:#4a90d9}
+.sel-wrap::after{content:'▾';position:absolute;right:9px;top:50%;transform:translateY(-50%);color:#4a90d9;font-size:11px;pointer-events:none}
+.sel-wrap select option{background:#0c0c20;color:#f0ede8}
+.ftab{background:transparent;border:1px solid rgba(26,86,160,0.3);color:rgba(240,237,232,0.45);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:2px;cursor:pointer;transition:all 0.2s}
+.ftab:hover{border-color:#4a90d9;color:#4a90d9}
+.ftab.on{background:#1a56a0;border-color:#1a56a0;color:#fff}
+.search-w{margin-left:auto;position:relative}
+.search-w input{background:rgba(255,255,255,0.04);border:1px solid rgba(26,86,160,0.3);color:#f0ede8;font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:1px;padding:8px 12px 8px 30px;border-radius:2px;outline:none;width:160px;transition:border-color 0.2s}
+.search-w input::placeholder{color:rgba(240,237,232,0.3)}
+.search-w input:focus{border-color:#4a90d9}
+.search-w span{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(240,237,232,0.35);font-size:13px}
+.grid-wrap{padding:24px 28px 60px;background:#05050f}
+.grid-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+.grid-hd-t{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;color:#fff}
+.grid-hd-c{font-size:11px;color:rgba(240,237,232,0.4)}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:15px}
+.pcard{background:#0a0a1e;border:1px solid rgba(26,86,160,0.22);border-radius:4px;overflow:hidden;cursor:pointer;transition:all 0.38s cubic-bezier(0.23,1,0.32,1)}
+.pcard:hover{transform:translateY(-6px);border-color:rgba(74,144,217,0.6);box-shadow:0 20px 50px rgba(0,0,0,0.65),0 0 0 1px rgba(74,144,217,0.1)}
+.pcard-img{position:relative;height:205px;overflow:hidden;background:#080818}
+.pcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s cubic-bezier(0.23,1,0.32,1)}
+.pcard:hover .pcard-img img{transform:scale(1.08)}
+.pcard-ovl{position:absolute;inset:0;background:rgba(5,5,15,0.58);opacity:0;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center;z-index:2}
+.pcard:hover .pcard-ovl{opacity:1}
+.ovl-txt{font-family:'Bebas Neue',cursive;font-size:14px;letter-spacing:4px;color:#fff;border:1px solid rgba(255,255,255,0.45);padding:7px 20px;border-radius:2px}
+.pbadge{position:absolute;top:10px;left:10px;z-index:3;padding:4px 10px;border-radius:2px;font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
+.bc{background:#1a56a0;color:#fff}.bi{background:#1a5276;color:#fff}.br{background:#1e8449;color:#fff}
+.bn{background:#6c3483;color:#fff}.ba{background:#0e6655;color:#fff}.bm{background:#922b21;color:#fff}.bh{background:#784212;color:#fff}
+.pcnt{position:absolute;bottom:10px;right:10px;z-index:3;background:rgba(0,0,0,0.8);border:1px solid rgba(74,144,217,0.3);color:#4a90d9;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:2px}
+.pcard-body{padding:13px 15px 10px}
+.pregion{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#4a90d9;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.pregion::before{content:'';width:11px;height:1px;background:#4a90d9}
+.pname{font-family:'Bebas Neue',cursive;font-size:19px;letter-spacing:1.5px;color:#fff;margin-bottom:2px;line-height:1}
+.ploc{font-size:11px;color:rgba(240,237,232,0.4);margin-bottom:9px}
+.prow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:7px}
+.pdet{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;padding:5px 8px}
+.pdet-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:2px}
+.pdet-v{font-size:12px;font-weight:700;color:#f0ede8}
+.pcols{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;padding:5px 8px}
+.pcols-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:4px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{background:rgba(26,86,160,0.15);border:1px solid rgba(74,144,217,0.28);color:#4a90d9;font-size:10px;font-weight:700;letter-spacing:0.5px;padding:2px 7px;border-radius:2px}
+.pfoot{padding:8px 15px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center}
+.pview{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#4a90d9;font-weight:700}
+#lb{display:none;position:fixed;inset:0;background:rgba(2,2,12,0.97);z-index:500;overflow-y:auto;justify-content:center;padding:20px 14px 40px}
+#lb.open{display:flex}
+.lb-panel{background:#0c0c20;border:1px solid rgba(26,86,160,0.28);border-radius:5px;width:100%;max-width:880px;margin:0 auto;overflow:hidden;height:fit-content}
+.lb-top{padding:20px 22px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:flex-start}
+.lb-badge{display:inline-block;padding:4px 11px;border-radius:2px;font-family:'Rajdhani',sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px}
+.lb-name{font-family:'Bebas Neue',cursive;font-size:clamp(26px,4.5vw,46px);letter-spacing:3px;color:#fff;line-height:1}
+.lb-loc{font-size:12px;color:#4a90d9;margin-top:5px;letter-spacing:1px}
+.lb-x{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(240,237,232,0.5);width:33px;height:33px;border-radius:3px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+.lb-x:hover{border-color:#4a90d9;color:#4a90d9}
+.lb-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:14px 22px}
+.lb-s{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;padding:9px 11px}
+.lb-sl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:3px}
+.lb-sv{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.lb-main{padding:0 22px 8px}
+.lb-main img{width:100%;height:320px;object-fit:cover;border-radius:4px;display:block;transition:opacity 0.25s ease}
+.lb-thumbs{padding:0 22px 14px;display:flex;gap:7px;overflow-x:auto}
+.lb-thumbs::-webkit-scrollbar{height:3px}
+.lb-thumbs::-webkit-scrollbar-thumb{background:#1a56a0;border-radius:2px}
+.lb-thumb{width:84px;height:56px;flex-shrink:0;border-radius:3px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s}
+.lb-thumb.active{border-color:#4a90d9}
+.lb-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.lb-colours{margin:0 22px 13px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;padding:11px 13px}
+.lb-cl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:7px}
+.lb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.lb-chip{background:rgba(26,86,160,0.15);border:1px solid rgba(74,144,217,0.28);color:#4a90d9;font-size:13px;font-weight:700;letter-spacing:1px;padding:5px 13px;border-radius:2px}
+.lb-vid{margin:0 22px 22px;border-radius:4px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.06)}
+.lb-vid video{width:100%;display:block}
+.lb-vid-ph{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(240,237,232,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:24px}
+.empty-st{grid-column:1/-1;text-align:center;padding:70px 20px;color:rgba(240,237,232,0.3);font-size:12px;letter-spacing:3px;text-transform:uppercase}
+@media(max-width:640px){.sec-stats{gap:28px}.controls{padding:11px 14px}.grid-wrap{padding:18px 14px 40px}.lb-meta{grid-template-columns:1fr 1fr}.lb-main img{height:200px}}
+</style>
+</head>
+<body>
+<div id="videoSection">
+  <video id="heroVideo" autoplay muted playsinline loop>
+    <source src="assets/intro.mp4" type="video/mp4">
+  </video>
+  <div class="vid-overlay"></div>
+  <div class="vid-logo">
+    <img src="assets/logo.png" alt="Eurobond ACP">
+    <div class="vid-logo-tag">Bonds That Last</div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll to explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+<div id="mainContent">
+  <nav class="topnav">
+    <div class="nav-logo"><img src="assets/logo.png" alt="Eurobond ACP"></div>
+  </nav>
+  <div class="sec-head">
+    <div class="sec-eyebrow">Architectural Cladding Specialists</div>
+    <div class="sec-title">PROJECT <span>SHOWCASE</span></div>
+    <div class="sec-stats">
+      <div class="ss"><div class="ss-n" id="sP">0</div><div class="ss-l">Projects</div></div>
+      <div class="ss"><div class="ss-n" id="sC">0</div><div class="ss-l">Locations</div></div>
+      <div class="ss"><div class="ss-n" id="sS">0</div><div class="ss-l">Lakh Sqft</div></div>
+    </div>
+  </div>
+  <div class="controls">
+    <span class="ctrl-lbl">Location</span>
+    <div class="sel-wrap">
+      <select id="locationDrop" onchange="applyFilters()">
+        <option value="all">All Locations</option>
+      </select>
+    </div>
+    <span class="ctrl-lbl" style="margin-left:12px">Category</span>
+    <div id="catTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    <div class="search-w">
+      <span>&#128269;</span>
+      <input type="text" id="srch" placeholder="Search..." oninput="applyFilters()">
+    </div>
+  </div>
+  <div class="grid-wrap">
+    <div class="grid-hd">
+      <div class="grid-hd-t" id="gTitle">All Projects</div>
+      <div class="grid-hd-c" id="gCount"></div>
+    </div>
+    <div class="proj-grid" id="pGrid"><div class="empty-st">Loading projects...</div></div>
+  </div>
+</div>
+<div id="lb"><div class="lb-panel" id="lbPanel"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ════════════════════════════════════════════════════
+// మీ Supabase details ఇక్కడ పెట్టండి
+// ════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://usugnffkjvdcqgankkfv.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzdWduZmZranZkY3FnYW5ra2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk0OTcsImV4cCI6MjA5NTE4NTQ5N30.LfdDmiYiWHrZJeN1yLD_7O3r-ecK2BVzCR7Pc2fOss4';
+// ════════════════════════════════════════════════════
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const BADGE={commercial:'bc',industrial:'bi',residential:'br',convention:'bn',airport:'ba',metro:'bm',hospital:'bh',hospitality:'bh'};
+const LABEL={commercial:'Commercial',industrial:'Industrial',residential:'Residential',convention:'Convention',airport:'Airport',metro:'Metro',hospital:'Hospital',hospitality:'Hospitality'};
+
+let allProjects=[], curLocation='all', curCat='all', curSearch='', _lbProject=null, _activeThumb=0;
+
+function animNum(el,to,sfx=''){
+  let n=0;const s=Math.max(1,Math.ceil(to/40));
+  const iv=setInterval(()=>{n=Math.min(n+s,to);el.textContent=n+sfx;if(n>=to)clearInterval(iv)},25);
+}
+
+async function loadProjects(){
+  const {data,error}=await sb.from('projects').select('*').order('created_at',{ascending:false});
+  if(error){document.getElementById('pGrid').innerHTML='<div class="empty-st">Error loading projects</div>';return;}
+  allProjects=data||[];
+  updateStats();
+  buildFilters();
+  renderGrid();
+}
+
+function updateStats(){
+  const locs=[...new Set(allProjects.map(p=>p.location))].length;
+  const sqft=allProjects.reduce((a,p)=>{const n=parseFloat((p.qty||'').replace(/[^0-9.]/g,''));return a+(isNaN(n)?0:n)},0);
+  animNum(document.getElementById('sP'),allProjects.length);
+  animNum(document.getElementById('sC'),locs);
+  animNum(document.getElementById('sS'),Math.round(sqft/100000));
+}
+
+function buildFilters(){
+  const locations=['all',...[...new Set(allProjects.map(p=>p.location))].sort()];
+  const rd=document.getElementById('locationDrop');
+  rd.innerHTML=locations.map(r=>`<option value="${r}">${r==='all'?'All Locations':r}</option>`).join('');
+  const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
+  const ct=document.getElementById('catTabs');
+  ct.innerHTML='';
+  cats.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='ftab'+(c==='all'?' on':'');
+    b.textContent=c==='all'?'All':(LABEL[c]||c);
+    b.onclick=()=>{curCat=c;document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderGrid()};
+    ct.appendChild(b);
+  });
+}
+
+function applyFilters(){
+  curLocation=document.getElementById('locationDrop').value;
+  curSearch=document.getElementById('srch').value.toLowerCase();
+  renderGrid();
+}
+
+function getList(){
+  return allProjects.filter(p=>{
+    const lOk=curLocation==='all'||p.location===curLocation;
+    const cOk=curCat==='all'||p.category===curCat;
+    const sOk=!curSearch||p.name.toLowerCase().includes(curSearch)||p.location.toLowerCase().includes(curSearch)||(p.colours||[]).join(' ').toLowerCase().includes(curSearch);
+    return lOk&&cOk&&sOk;
+  });
+}
+
+function renderGrid(){
+  const list=getList();
+  document.getElementById('gTitle').textContent=(curLocation==='all'?'All Projects':curLocation)+(curCat!=='all'?' — '+(LABEL[curCat]||curCat):'');
+  document.getElementById('gCount').textContent=list.length+' project'+(list.length!==1?'s':'');
+  const g=document.getElementById('pGrid');
+  if(!list.length){g.innerHTML='<div class="empty-st">No projects found</div>';return}
+  g.innerHTML=list.map(p=>`
+    <div class="pcard" onclick="openGallery(${p.id})">
+      <div class="pcard-img">
+        <img src="${(p.photos||[])[0]||''}" alt="${p.name}" loading="lazy">
+        <div class="pcard-ovl"><div class="ovl-txt">View Gallery</div></div>
+        <div class="pbadge ${BADGE[p.category]||'bc'}">${LABEL[p.category]||p.category}</div>
+        <div class="pcnt">&#128247; ${(p.photos||[]).length}</div>
+      </div>
+      <div class="pcard-body">
+        <div class="pregion">${p.location||''}</div>
+        <div class="pname">${p.name}</div>
+        <div class="ploc">&#128205; ${p.location}, ${p.city}</div>
+        <div class="prow">
+          <div class="pdet"><div class="pdet-l">QTY</div><div class="pdet-v">${p.qty||'—'}</div></div>
+          <div class="pdet"><div class="pdet-l">Grade</div><div class="pdet-v">${p.grade||'—'}</div></div>
+          <div class="pdet"><div class="pdet-l">Photos</div><div class="pdet-v">${(p.photos||[]).length}</div></div>
+        </div>
+        <div class="pcols">
+          <div class="pcols-l">Colour Codes</div>
+          <div class="chips">${(p.colours||[]).map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="pfoot"><span class="pview">View Gallery &#8594;</span><span style="font-size:10px;color:rgba(240,237,232,0.3)">${p.city||''}</span></div>
+    </div>`).join('');
+}
+
+function openGallery(id){
+  const p=allProjects.find(x=>x.id===id);
+  if(!p)return;
+  _lbProject=p;_activeThumb=0;
+  const thumbs=(p.photos||[]).map((ph,i)=>`<div class="lb-thumb${i===0?' active':''}" onclick="switchPhoto(${i})"><img src="${ph}" alt="" loading="lazy"></div>`).join('');
+  document.getElementById('lbPanel').innerHTML=`
+    <div class="lb-top">
+      <div>
+        <div><span class="lb-badge ${BADGE[p.category]||'bc'}">${LABEL[p.category]||p.category}</span></div>
+        <div class="lb-name">${p.name}</div>
+        <div class="lb-loc">&#128205; ${p.location}, ${p.city}, ${p.state||''}</div>
+      </div>
+      <button class="lb-x" onclick="closeLb()">&#10005;</button>
+    </div>
+    <div class="lb-meta">
+      <div class="lb-s"><div class="lb-sl">Quantity</div><div class="lb-sv">${p.qty||'—'}</div></div>
+      <div class="lb-s"><div class="lb-sl">Grade</div><div class="lb-sv">${p.grade||'—'}</div></div>
+      <div class="lb-s"><div class="lb-sl">Architect</div><div class="lb-sv">${p.architect||'—'}</div></div>
+      <div class="lb-s"><div class="lb-sl">Fabricator</div><div class="lb-sv">${p.fabricator||'—'}</div></div>
+    </div>
+    <div class="lb-main"><img id="mainImg" src="${(p.photos||[])[0]||''}" alt="${p.name}"></div>
+    <div class="lb-thumbs">${thumbs}</div>
+    <div class="lb-colours"><div class="lb-cl">Colour Codes Applied</div><div class="lb-chips">${(p.colours||[]).map(c=>`<div class="lb-chip">${c}</div>`).join('')}</div></div>
+    <div class="lb-vid">${p.video?`<video controls><source src="${p.video}"></video>`:`<div class="lb-vid-ph">&#127909;<br><span>No video added</span></div>`}</div>`;
+  const lb=document.getElementById('lb');
+  lb.classList.add('open');
+  lb.scrollTop=0;
+}
+
+function switchPhoto(idx){
+  _activeThumb=idx;
+  const img=document.getElementById('mainImg');
+  img.style.opacity='0';
+  setTimeout(()=>{img.src=(_lbProject.photos||[])[idx];img.style.opacity='1'},220);
+  document.querySelectorAll('.lb-thumb').forEach((el,i)=>el.classList.toggle('active',i===idx));
+}
+
+function closeLb(){document.getElementById('lb').classList.remove('open')}
+document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)closeLb()});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeLb();
+  if(!_lbProject)return;
+  if(e.key==='ArrowRight')switchPhoto(Math.min(_activeThumb+1,(_lbProject.photos||[]).length-1));
+  if(e.key==='ArrowLeft')switchPhoto(Math.max(_activeThumb-1,0));
+});
+
+loadProjects();
+</script>
+</body>
+</html>
