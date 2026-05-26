@@ -185,7 +185,7 @@ body{font-family:'Rajdhani',sans-serif;background:#0a0a18;color:#f5f2ee;overflow
   <div class="controls">
     <span class="ctrl-lbl">Zone</span>
     <div class="sel-wrap">
-      <select id="zoneDrop" onchange="applyFilters()">
+      <select id="zoneDrop" onchange="applyFilters('zone')">
         <option value="all">All Zones</option>
         <option value="North">North</option>
         <option value="South">South</option>
@@ -195,9 +195,9 @@ body{font-family:'Rajdhani',sans-serif;background:#0a0a18;color:#f5f2ee;overflow
       </select>
     </div>
     <span class="ctrl-lbl" style="margin-left:8px">State</span>
-    <div class="sel-wrap"><select id="stateDrop" onchange="applyFilters()"><option value="all">All States</option></select></div>
+    <div class="sel-wrap"><select id="stateDrop" onchange="applyFilters('state')"><option value="all">All States</option></select></div>
     <span class="ctrl-lbl" style="margin-left:8px">City</span>
-    <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters()"><option value="all">All Cities</option></select></div>
+    <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters('city')"><option value="all">All Cities</option></select></div>
     <span class="ctrl-lbl" style="margin-left:8px">Category</span>
     <div id="catTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     <div class="search-w">
@@ -267,14 +267,36 @@ async function loadProjects(){
   statsObs.observe(document.querySelector('.sec-head'));
 }
 
+function updateStateDrop(){
+  const zoneVal=document.getElementById('zoneDrop').value;
+  const filtered=zoneVal==='all'?allProjects:allProjects.filter(p=>(p.zone||'').trim()===zoneVal);
+  const states=['all',...[...new Set(filtered.map(p=>p.state||''))].filter(Boolean).sort()];
+  const sd=document.getElementById('stateDrop');
+  const prev=sd.value;
+  sd.innerHTML=states.map(s=>`<option value="${s}">${s==='all'?'All States':s}</option>`).join('');
+  if(states.includes(prev)) sd.value=prev;
+}
+
+function updateCityDrop(){
+  const zoneVal=document.getElementById('zoneDrop').value;
+  const stateVal=document.getElementById('stateDrop').value;
+  let filtered=allProjects;
+  if(zoneVal!=='all') filtered=filtered.filter(p=>(p.zone||'').trim()===zoneVal);
+  if(stateVal!=='all') filtered=filtered.filter(p=>(p.state||'').trim()===stateVal);
+  const cities=['all',...[...new Set(filtered.map(p=>p.city||''))].filter(Boolean).sort()];
+  const cd=document.getElementById('locationDrop');
+  const prev=cd.value;
+  cd.innerHTML=cities.map(c=>`<option value="${c}">${c==='all'?'All Cities':c}</option>`).join('');
+  if(cities.includes(prev)) cd.value=prev;
+}
+
 function buildFilters(){
   const locs=['all',...[...new Set(allProjects.map(p=>p.city))].sort()];
   const rd=document.getElementById('locationDrop');
   rd.innerHTML=locs.map(r=>`<option value="${r}">${r==='all'?'All Cities':r}</option>`).join('');
-  // State dropdown
-  const states=['all',...[...new Set(allProjects.map(p=>p.state||''))].filter(Boolean).sort()];
-  const sd=document.getElementById('stateDrop');
-  sd.innerHTML=states.map(s=>`<option value="${s}">${s==='all'?'All States':s}</option>`).join('');
+  // State dropdown — updates based on zone
+  updateStateDrop();
+  updateCityDrop();
 
   const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
   const ct=document.getElementById('catTabs');
@@ -289,7 +311,13 @@ function buildFilters(){
 
 }
 
-function applyFilters(){
+function applyFilters(changed){
+  if(changed==='zone'){
+    updateStateDrop();
+    updateCityDrop();
+  } else if(changed==='state'){
+    updateCityDrop();
+  }
   curZone=document.getElementById('zoneDrop').value;
   curState=document.getElementById('stateDrop').value;
   curLocation=document.getElementById('locationDrop').value;
@@ -299,14 +327,16 @@ function applyFilters(){
 
 function getList(){
   return allProjects.filter(p=>{
-    const zOk=curZone==='all'||(p.zone||'')=== curZone;
-    const stOk=curState==='all'||(p.state||'')===curState;
-    const lOk=curLocation==='all'||p.city===curLocation;
+    const zOk=curZone==='all'||(p.zone||'').trim()===curZone.trim();
+    const stOk=curState==='all'||(p.state||'').trim()===curState.trim();
+    const lOk=curLocation==='all'||(p.city||'').trim()===curLocation.trim();
     const cOk=curCat==='all'||p.category===curCat;
     const sOk=!curSearch||
       p.name.toLowerCase().includes(curSearch)||
-      p.location.toLowerCase().includes(curSearch)||
-      p.city.toLowerCase().includes(curSearch)||
+      (p.location||'').toLowerCase().includes(curSearch)||
+      (p.city||'').toLowerCase().includes(curSearch)||
+      (p.zone||'').toLowerCase().includes(curSearch)||
+      (p.state||'').toLowerCase().includes(curSearch)||
       (p.colours||[]).join(' ').toLowerCase().includes(curSearch)||
       (p.architect||'').toLowerCase().includes(curSearch)||
       (p.fabricator||'').toLowerCase().includes(curSearch);
