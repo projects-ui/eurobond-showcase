@@ -327,7 +327,7 @@ function applyFilters(changed){
 
 function getList(){
   return allProjects.filter(p=>{
-    const zOk=curZone==='all'||(p.zone||'').trim()===curZone.trim();
+    const zOk=curZone==='all'||!p.zone||(p.zone||'').trim()===curZone.trim();
     const stOk=curState==='all'||(p.state||'').trim()===curState.trim();
     const lOk=curLocation==='all'||(p.city||'').trim()===curLocation.trim();
     const cOk=curCat==='all'||p.category===curCat;
