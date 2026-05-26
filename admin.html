@@ -361,9 +361,11 @@ async function submitProject(){
   let videoUrl = null;
 
   const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const zoneVal = document.getElementById('fZone').value.trim();
+  console.log('Zone value being saved:', zoneVal);
   const {error} = await sb.from('projects').insert({
     name,
-    zone: document.getElementById('fZone').value.trim(),
+    zone: zoneVal,
     location,
     city,
     state: document.getElementById('fState').value.trim(),
