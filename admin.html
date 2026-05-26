@@ -202,6 +202,25 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;min-heig
         <input type="file" id="photoInput" multiple accept="image/*" onchange="handleFiles(this.files)">
         <div class="photo-previews" id="photoPreviews"></div>
 
+        <!-- VIDEO UPLOAD -->
+        <div class="form-group" style="margin-bottom:10px;margin-top:6px">
+          <label>Project Video (Optional)</label>
+        </div>
+        <div class="upload-zone" id="videoZone" onclick="document.getElementById('videoInput').click()"
+          ondragover="event.preventDefault();this.classList.add('drag')"
+          ondragleave="this.classList.remove('drag')"
+          ondrop="handleVideoDrop(event)"
+          style="padding:20px;margin-bottom:14px">
+          <div class="upload-zone-icon">🎥</div>
+          <div class="upload-zone-txt" id="videoZoneTxt">Click here to select video</div>
+          <div class="upload-zone-sub">MP4 format recommended</div>
+        </div>
+        <input type="file" id="videoInput" accept="video/*" onchange="handleVideo(this.files[0])">
+        <div id="videoPreview" style="display:none;margin-bottom:14px;position:relative">
+          <video id="videoPreviewEl" style="width:100%;border-radius:6px;max-height:180px;background:#000" controls></video>
+          <button onclick="removeVideo()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);color:#fff;border:none;width:26px;height:26px;border-radius:50%;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+        </div>
+
         <div class="progress-wrap" id="progressWrap">
           <div class="progress-label" id="progressLabel">Uploading... 0%</div>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -291,6 +310,30 @@ function removePhoto(idx){
   renderPreviews();
 }
 
+// ── VIDEO HANDLING ──
+let selectedVideo = null;
+function handleVideo(file){
+  if(!file) return;
+  selectedVideo = file;
+  const vid = document.getElementById('videoPreviewEl');
+  vid.src = URL.createObjectURL(file);
+  document.getElementById('videoPreview').style.display = 'block';
+  document.getElementById('videoZoneTxt').textContent = '✅ ' + file.name;
+}
+function handleVideoDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('video/')) handleVideo(f);
+}
+function removeVideo(){
+  selectedVideo = null;
+  document.getElementById('videoPreviewEl').src = '';
+  document.getElementById('videoPreview').style.display = 'none';
+  document.getElementById('videoZoneTxt').textContent = 'Click here to select video';
+  document.getElementById('videoInput').value = '';
+}
+
 // ── SHOW STATUS ──
 function showStatus(msg, type='success'){
   const el = document.getElementById('statusMsg');
@@ -344,6 +387,19 @@ async function submitProject(){
   fill.style.width = '90%';
   lbl.textContent = 'Saving project details...';
 
+  // Upload video if selected
+  let videoUrl = null;
+  if(selectedVideo){
+    lbl.textContent = 'Uploading video...';
+    const ext = selectedVideo.name.split('.').pop();
+    const vpath = `${name.toLowerCase().replace(/\s+/g,'-')}/video-${Date.now()}.${ext}`;
+    const {data:vdata, error:verr} = await sb.storage.from('project-photos').upload(vpath, selectedVideo, {upsert:true});
+    if(!verr){
+      const {data:{publicUrl:vUrl}} = sb.storage.from('project-photos').getPublicUrl(vpath);
+      videoUrl = vUrl;
+    }
+  }
+
   const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
   const {error} = await sb.from('projects').insert({
     name,
@@ -358,7 +414,7 @@ async function submitProject(){
     fabricator: document.getElementById('fFabricator').value.trim(),
     consultant: document.getElementById('fConsultant').value.trim(),
     photos: photoUrls,
-    video: null
+    video: videoUrl
   });
 
   fill.style.width = '100%';
@@ -372,6 +428,7 @@ async function submitProject(){
     document.getElementById('fCat').value='';
     selectedFiles=[];
     renderPreviews();
+    removeVideo();
     setTimeout(()=>{prog.style.display='none';fill.style.width='0'},1000);
   }
 
