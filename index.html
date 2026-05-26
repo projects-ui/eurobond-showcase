@@ -235,13 +235,13 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
     <div class="sec-title">PROJECT <span>SHOWCASE</span></div>
     <div class="sec-stats">
       <div class="ss"><div class="ss-n" id="sP">0</div><div class="ss-l">Projects</div></div>
-      <div class="ss"><div class="ss-n" id="sC">0</div><div class="ss-l">Locations</div></div>
+      <div class="ss"><div class="ss-n" id="sC">0</div><div class="ss-l">Cities</div></div>
       <div class="ss"><div class="ss-n" id="sS">0</div><div class="ss-l">Lakh Sqft</div></div>
     </div>
   </div>
   <div class="controls">
-    <span class="ctrl-lbl">Location</span>
-    <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters()"><option value="all">All Locations</option></select></div>
+    <span class="ctrl-lbl">City</span>
+    <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters()"><option value="all">All Cities</option></select></div>
     <span class="ctrl-lbl" style="margin-left:12px">Category</span>
     <div id="catTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     <div class="search-w">
@@ -328,7 +328,7 @@ function animNum(el,to){
 const statsObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
-      const locs=[...new Set(allProjects.map(p=>p.location))].length;
+      const locs=[...new Set(allProjects.map(p=>p.city))].length;
       const sqft=allProjects.reduce((a,p)=>{const n=parseFloat((p.qty||'').replace(/[^0-9.]/g,''));return a+(isNaN(n)?0:n)},0);
       animNum(document.getElementById('sP'),allProjects.length);
       animNum(document.getElementById('sC'),locs);
@@ -349,9 +349,9 @@ async function loadProjects(){
 }
 
 function buildFilters(){
-  const locs=['all',...[...new Set(allProjects.map(p=>p.location))].sort()];
+  const locs=['all',...[...new Set(allProjects.map(p=>p.city))].sort()];
   const rd=document.getElementById('locationDrop');
-  rd.innerHTML=locs.map(r=>`<option value="${r}">${r==='all'?'All Locations':r}</option>`).join('');
+  rd.innerHTML=locs.map(r=>`<option value="${r}">${r==='all'?'All Cities':r}</option>`).join('');
   const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
   const ct=document.getElementById('catTabs');
   ct.innerHTML='';
@@ -372,7 +372,7 @@ function applyFilters(){
 
 function getList(){
   return allProjects.filter(p=>{
-    const lOk=curLocation==='all'||p.location===curLocation;
+    const lOk=curLocation==='all'||p.city===curLocation;
     const cOk=curCat==='all'||p.category===curCat;
     const sOk=!curSearch||p.name.toLowerCase().includes(curSearch)||p.location.toLowerCase().includes(curSearch)||(p.colours||[]).join(' ').toLowerCase().includes(curSearch);
     return lOk&&cOk&&sOk;
@@ -398,7 +398,7 @@ function renderGrid(){
         <div class="pname">${p.name}</div>
         <div class="ploc">&#128205; ${p.location}, ${p.city||''}</div>
         <div class="prow">
-          <div class="pdet"><div class="pdet-l">QTY</div><div class="pdet-v">${p.qty||'—'}</div></div>
+          <div class="pdet"><div class="pdet-l">Qty (Sq.ft)</div><div class="pdet-v">${p.qty||'—'}</div></div>
           <div class="pdet"><div class="pdet-l">Grade</div><div class="pdet-v">${p.grade||'—'}</div></div>
           <div class="pdet"><div class="pdet-l">Photos</div><div class="pdet-v">${(p.photos||[]).length}</div></div>
         </div>
