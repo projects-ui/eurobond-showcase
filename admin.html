@@ -320,9 +320,8 @@ async function submitProject(){
   const city = document.getElementById('fCity').value.trim();
   const cat = document.getElementById('fCat').value;
 
-  const zone = document.getElementById('fZone').value;
-  if(!name || !city || !cat || !zone){
-    showStatus('Please fill Name, City, Zone, Category!', 'error');
+  if(!name || !city || !cat){
+    showStatus('Please fill Name, City and Category!', 'error');
     return;
   }
   if(selectedFiles.length === 0){
@@ -361,8 +360,7 @@ async function submitProject(){
   let videoUrl = null;
 
   const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
-  const zoneVal = document.getElementById('fZone').value.trim();
-  console.log('Zone value being saved:', zoneVal);
+  const zoneVal = document.getElementById('fZone').value || '';
   const {error} = await sb.from('projects').insert({
     name,
     zone: zoneVal,
