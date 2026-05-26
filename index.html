@@ -183,9 +183,22 @@ body{font-family:'Rajdhani',sans-serif;background:#0a0a18;color:#f5f2ee;overflow
     </div>
   </div>
   <div class="controls">
-    <span class="ctrl-lbl">City</span>
+    <span class="ctrl-lbl">Zone</span>
+    <div class="sel-wrap">
+      <select id="zoneDrop" onchange="applyFilters()">
+        <option value="all">All Zones</option>
+        <option value="North">North</option>
+        <option value="South">South</option>
+        <option value="East">East</option>
+        <option value="West">West</option>
+        <option value="Central">Central</option>
+      </select>
+    </div>
+    <span class="ctrl-lbl" style="margin-left:8px">State</span>
+    <div class="sel-wrap"><select id="stateDrop" onchange="applyFilters()"><option value="all">All States</option></select></div>
+    <span class="ctrl-lbl" style="margin-left:8px">City</span>
     <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters()"><option value="all">All Cities</option></select></div>
-    <span class="ctrl-lbl" style="margin-left:12px">Category</span>
+    <span class="ctrl-lbl" style="margin-left:8px">Category</span>
     <div id="catTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
     <div class="search-w">
       <span>&#128269;</span>
@@ -222,7 +235,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const BADGE={commercial:'bc',industrial:'bi',residential:'br',convention:'bn',airport:'ba',metro:'bm',hospital:'bh',hospitality:'bh'};
 const LABEL={commercial:'Commercial',industrial:'Industrial',residential:'Residential',convention:'Convention',airport:'Airport',metro:'Metro',hospital:'Hospital',hospitality:'Hospitality'};
 
-let allProjects=[],curLocation='all',curCat='all',curSearch='';
+let allProjects=[],curZone='all',curState='all',curLocation='all',curCat='all',curSearch='';
 let _lbProject=null,_activeThumb=0;
 let _fsPhotos=[],_fsIdx=0;
 
@@ -258,6 +271,11 @@ function buildFilters(){
   const locs=['all',...[...new Set(allProjects.map(p=>p.city))].sort()];
   const rd=document.getElementById('locationDrop');
   rd.innerHTML=locs.map(r=>`<option value="${r}">${r==='all'?'All Cities':r}</option>`).join('');
+  // State dropdown
+  const states=['all',...[...new Set(allProjects.map(p=>p.state||''))].filter(Boolean).sort()];
+  const sd=document.getElementById('stateDrop');
+  sd.innerHTML=states.map(s=>`<option value="${s}">${s==='all'?'All States':s}</option>`).join('');
+
   const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
   const ct=document.getElementById('catTabs');
   ct.innerHTML='';
@@ -272,6 +290,8 @@ function buildFilters(){
 }
 
 function applyFilters(){
+  curZone=document.getElementById('zoneDrop').value;
+  curState=document.getElementById('stateDrop').value;
   curLocation=document.getElementById('locationDrop').value;
   curSearch=document.getElementById('srch').value.toLowerCase();
   renderGrid();
@@ -279,6 +299,8 @@ function applyFilters(){
 
 function getList(){
   return allProjects.filter(p=>{
+    const zOk=curZone==='all'||(p.zone||'')=== curZone;
+    const stOk=curState==='all'||(p.state||'')===curState;
     const lOk=curLocation==='all'||p.city===curLocation;
     const cOk=curCat==='all'||p.category===curCat;
     const sOk=!curSearch||
@@ -288,13 +310,18 @@ function getList(){
       (p.colours||[]).join(' ').toLowerCase().includes(curSearch)||
       (p.architect||'').toLowerCase().includes(curSearch)||
       (p.fabricator||'').toLowerCase().includes(curSearch);
-    return lOk&&cOk&&sOk;
+    return zOk&&stOk&&lOk&&cOk&&sOk;
   });
 }
 
 function renderGrid(){
   const list=getList();
-  document.getElementById('gTitle').textContent=(curLocation==='all'?'All Projects':curLocation)+(curCat!=='all'?' — '+(LABEL[curCat]||curCat):'');
+  let title='All Projects';
+  if(curZone!=='all') title=curZone+' Zone';
+  else if(curState!=='all') title=curState;
+  else if(curLocation!=='all') title=curLocation;
+  if(curCat!=='all') title+=' — '+(LABEL[curCat]||curCat);
+  document.getElementById('gTitle').textContent=title;
   document.getElementById('gCount').textContent=list.length+' project'+(list.length!==1?'s':'');
   const g=document.getElementById('pGrid');
   if(!list.length){g.innerHTML='<div class="empty-st">No projects found</div>';return}
@@ -311,7 +338,7 @@ function renderGrid(){
         <div class="pname">${p.name}</div>
         <div class="ploc">&#128205; ${p.location}, ${p.city||''}</div>
         <div class="prow">
-          <div class="pdet"><div class="pdet-l">Qty (Sq.ft)</div><div class="pdet-v">${p.qty||'—'}</div></div>
+          <div class="pdet"><div class="pdet-l">Qty (Sq.mt)</div><div class="pdet-v">${p.qty||'—'}</div></div>
           <div class="pdet"><div class="pdet-l">Grade</div><div class="pdet-v">${p.grade||'—'}</div></div>
           <div class="pdet"><div class="pdet-l">Photos</div><div class="pdet-v">${(p.photos||[]).length}</div></div>
         </div>
@@ -343,7 +370,7 @@ function openGallery(id){
       <button class="lb-x" onclick="closeLb()">&#10005;</button>
     </div>
     <div class="lb-meta">
-      <div class="lb-s"><div class="lb-sl">Quantity (Sq.ft)</div><div class="lb-sv">${p.qty||'—'}</div></div>
+      <div class="lb-s"><div class="lb-sl">Quantity (Sq.mt)</div><div class="lb-sv">${p.qty||'—'}</div></div>
       <div class="lb-s"><div class="lb-sl">Grade</div><div class="lb-sv">${p.grade||'—'}</div></div>
       <div class="lb-s"><div class="lb-sl">Architect</div><div class="lb-sv">${p.architect||'—'}</div></div>
       <div class="lb-s"><div class="lb-sl">Fabricator</div><div class="lb-sv">${p.fabricator||'—'}</div></div>
