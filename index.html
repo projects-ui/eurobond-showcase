@@ -163,9 +163,7 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
 .lb-cl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:7px}
 .lb-chips{display:flex;flex-wrap:wrap;gap:6px}
 .lb-chip{background:rgba(26,86,160,0.15);border:1px solid rgba(74,144,217,0.28);color:#4a90d9;font-size:13px;font-weight:700;letter-spacing:1px;padding:5px 13px;border-radius:2px}
-.lb-vid{margin:0 22px 22px;border-radius:4px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.06)}
-.lb-vid video{width:100%;display:block}
-.lb-vid-ph{display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(240,237,232,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:24px}
+
 
 /* ─── FULLSCREEN PHOTO VIEWER ─── */
 #fsViewer{
@@ -244,6 +242,12 @@ body{font-family:'Rajdhani',sans-serif;background:#05050f;color:#f0ede8;overflow
     <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters()"><option value="all">All Cities</option></select></div>
     <span class="ctrl-lbl" style="margin-left:12px">Category</span>
     <div id="catTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    <span class="ctrl-lbl" style="margin-left:12px">Colour</span>
+    <div class="sel-wrap">
+      <select id="colourDrop" onchange="applyFilters()">
+        <option value="all">All Colours</option>
+      </select>
+    </div>
     <div class="search-w">
       <span>&#128269;</span>
       <input type="text" id="srch" placeholder="Search project..." oninput="applyFilters()">
@@ -279,7 +283,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const BADGE={commercial:'bc',industrial:'bi',residential:'br',convention:'bn',airport:'ba',metro:'bm',hospital:'bh',hospitality:'bh'};
 const LABEL={commercial:'Commercial',industrial:'Industrial',residential:'Residential',convention:'Convention',airport:'Airport',metro:'Metro',hospital:'Hospital',hospitality:'Hospitality'};
 
-let allProjects=[],curLocation='all',curCat='all',curSearch='';
+let allProjects=[],curLocation='all',curCat='all',curColour='all',curSearch='';
 let _lbProject=null,_activeThumb=0;
 let _fsPhotos=[],_fsIdx=0;
 
@@ -362,10 +366,16 @@ function buildFilters(){
     b.onclick=()=>{curCat=c;document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderGrid()};
     ct.appendChild(b);
   });
+
+  // Colour filter
+  const allColours=['all',...[...new Set(allProjects.flatMap(p=>p.colours||[]))].sort()];
+  const cd=document.getElementById('colourDrop');
+  cd.innerHTML=allColours.map(c=>`<option value="${c}">${c==='all'?'All Colours':c}</option>`).join('');
 }
 
 function applyFilters(){
   curLocation=document.getElementById('locationDrop').value;
+  curColour=document.getElementById('colourDrop').value;
   curSearch=document.getElementById('srch').value.toLowerCase();
   renderGrid();
 }
@@ -374,8 +384,9 @@ function getList(){
   return allProjects.filter(p=>{
     const lOk=curLocation==='all'||p.city===curLocation;
     const cOk=curCat==='all'||p.category===curCat;
+    const colOk=curColour==='all'||(p.colours||[]).some(c=>c===curColour);
     const sOk=!curSearch||p.name.toLowerCase().includes(curSearch)||p.location.toLowerCase().includes(curSearch)||(p.colours||[]).join(' ').toLowerCase().includes(curSearch);
-    return lOk&&cOk&&sOk;
+    return lOk&&cOk&&colOk&&sOk;
   });
 }
 
@@ -443,9 +454,7 @@ function openGallery(id){
       <div class="lb-cl">Colour Codes Applied</div>
       <div class="lb-chips">${(p.colours||[]).map(c=>`<div class="lb-chip">${c}</div>`).join('')}</div>
     </div>
-    <div class="lb-vid">
-      ${p.video?`<video controls><source src="${p.video}" type="video/mp4"></video>`:`<div class="lb-vid-ph">&#127909;<br><span>No video added</span></div>`}
-    </div>`;
+`;
   const lb=document.getElementById('lb');
   lb.classList.add('open');
   lb.scrollTop=0;
