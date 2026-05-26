@@ -363,6 +363,7 @@ async function submitProject(){
   const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
   const {error} = await sb.from('projects').insert({
     name,
+    zone: document.getElementById('fZone').value.trim(),
     location,
     city,
     state: document.getElementById('fState').value.trim(),
