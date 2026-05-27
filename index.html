@@ -9,37 +9,41 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow-x:hidden}
- 
+
 #videoSection{position:sticky;top:0;width:100%;height:100vh;background:#000;overflow:hidden;z-index:1}
 #heroVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .vid-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.05) 60%,rgba(0,0,0,0.7) 100%)}
-.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.7);font-size:16px;letter-spacing:3px;text-transform:uppercase}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,0.7);font-size:12px;letter-spacing:3px;text-transform:uppercase}
 .scroll-line{width:1px;height:44px;background:linear-gradient(rgba(255,255,255,0.7),transparent);animation:sAnim 1.8s ease-in-out infinite}
 @keyframes sAnim{0%,100%{opacity:0.3;transform:scaleY(0.7)}50%{opacity:1;transform:scaleY(1)}}
- 
+
 #mainContent{position:relative;z-index:10;margin-top:100vh;background:#f0f4f8}
- 
+
 /* NAV */
-.topnav{background:#ffffff;border-bottom:3px solid #1d4ed8;height:64px;display:flex;align-items:center;padding:0 36px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(29,78,216,0.12)}
+.topnav{background:#ffffff;border-bottom:3px solid #1d4ed8;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(29,78,216,0.12)}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-link{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#374151;text-decoration:none;padding:8px 18px;border-radius:6px;transition:all 0.2s}
+.nav-link:hover{color:#1d4ed8;background:#eff6ff}
+.nav-link.active{background:#1d4ed8;color:#ffffff}
 .nav-logo img{height:38px;width:auto}
- 
+
 /* HERO */
 .sec-head{padding:60px 36px 40px;background:linear-gradient(180deg,#dbeafe 0%,#eff6ff 60%,#f0f4f8 100%);text-align:center}
- 
+
 /* 1. Architectural Cladding Specialists - BIGGER */
 .sec-eyebrow{font-size:22px;letter-spacing:4px;color:#1e3a8a;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:18px;font-weight:700}
 .sec-eyebrow::before,.sec-eyebrow::after{content:'';width:40px;height:2px;background:#1e3a8a;opacity:0.5}
- 
+
 /* 2. PROJECT SHOWCASE - both words BLACK */
 .sec-title{font-family:'Bebas Neue',cursive;font-size:clamp(64px,9vw,108px);letter-spacing:4px;color:#000000;margin-bottom:36px;font-weight:900;line-height:0.9;text-shadow:none}
 .sec-title span{color:#1d4ed8}
- 
+
 /* 3. Stats - BIGGER */
 .sec-stats{display:flex;gap:60px;justify-content:center}
 .ss{text-align:center}
 .ss-n{font-family:'Bebas Neue',cursive;font-size:76px;color:#1d4ed8;line-height:1;font-weight:900}
 .ss-l{font-size:16px;letter-spacing:3px;color:#000000;text-transform:uppercase;margin-top:6px;font-weight:800}
- 
+
 /* CONTROLS */
 .controls{background:#ffffff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;padding:18px 36px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
 .ctrl-lbl{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#000000;margin-right:4px;font-weight:900}
@@ -56,16 +60,16 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
 .search-w input::placeholder{color:#9ca3af}
 .search-w input:focus{border-color:#1d4ed8}
 .search-w span{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#6b7280;font-size:14px}
- 
+
 /* GRID */
 .grid-wrap{padding:28px 36px 60px;background:#f0f4f8}
 .grid-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px}
- 
+
 /* 4. All Projects - BLACK */
 .grid-hd-t{font-family:'Bebas Neue',cursive;font-size:44px;letter-spacing:2px;color:#000000;font-weight:900}
 .grid-hd-c{font-size:15px;color:#000000;font-weight:700}
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
- 
+
 /* CARD */
 .pcard{background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;cursor:pointer;transition:all 0.35s cubic-bezier(0.23,1,0.32,1);box-shadow:0 2px 10px rgba(0,0,0,0.07)}
 .pcard:hover{transform:translateY(-7px);border-color:#3b82f6;box-shadow:0 20px 40px rgba(59,130,246,0.2),0 0 0 2px #bfdbfe}
@@ -94,7 +98,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
 .chip{background:#dbeafe;border:1px solid #60a5fa;color:#1e40af;font-size:12px;font-weight:800;padding:4px 10px;border-radius:5px}
 .pfoot{padding:14px 18px;border-top:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center}
 .pview{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#1d4ed8;font-weight:900}
- 
+
 /* LIGHTBOX - dark background, white text */
 #lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:500;overflow-y:auto;justify-content:center;padding:24px 16px 48px}
 #lb.open{display:flex}
@@ -105,13 +109,13 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
 .lb-loc{font-size:16px;color:#93c5fd;margin-top:8px;letter-spacing:1px;font-weight:600}
 .lb-x{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#ffffff;width:40px;height:40px;border-radius:6px;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
 .lb-x:hover{border-color:#60a5fa;color:#60a5fa}
- 
+
 /* 5. Lightbox meta - bigger white text */
 .lb-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:18px 32px}
 .lb-s{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:14px 16px}
 .lb-sl{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:6px;font-weight:700}
 .lb-sv{font-size:18px;font-weight:800;color:#ffffff;line-height:1.3}
- 
+
 .lb-main{padding:0 32px 12px}
 .lb-main img{width:100%;height:360px;object-fit:cover;border-radius:8px;display:block;transition:opacity 0.25s;cursor:zoom-in}
 .lb-thumbs{padding:0 32px 18px;display:flex;gap:8px;overflow-x:auto}
@@ -124,7 +128,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
 .lb-cl{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:10px;font-weight:700}
 .lb-chips{display:flex;flex-wrap:wrap;gap:8px}
 .lb-chip{background:rgba(30,64,175,0.4);border:1px solid #3b82f6;color:#93c5fd;font-size:15px;font-weight:700;letter-spacing:1px;padding:7px 18px;border-radius:4px}
- 
+
 /* FULLSCREEN */
 #fsViewer{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.97);z-index:1000;align-items:center;justify-content:center}
 #fsViewer.open{display:flex}
@@ -134,26 +138,30 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
 .fs-prev,.fs-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;width:50px;height:50px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:all 0.2s}
 .fs-prev{left:20px}.fs-next{right:20px}
 .fs-counter{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.7);font-family:'Rajdhani',sans-serif;font-size:15px;letter-spacing:3px;font-weight:600}
- 
+
 .empty-st{grid-column:1/-1;text-align:center;padding:80px 20px;color:#6b7280;font-size:15px;letter-spacing:3px;text-transform:uppercase;font-weight:600}
 @media(max-width:640px){.sec-stats{gap:28px}.controls{padding:12px 16px}.grid-wrap{padding:20px 16px 40px}.lb-meta{grid-template-columns:1fr 1fr}.lb-main img{height:220px}}
 </style>
 </head>
 <body>
- 
+
 <div id="videoSection">
   <video id="heroVideo" autoplay muted playsinline loop>
     <source src="assets/intro.mp4" type="video/mp4">
   </video>
   <div class="vid-overlay"></div>
-  <div class="scroll-hint"><span>Scroll to Explore Projects</span><div class="scroll-line"></div></div>
+  <div class="scroll-hint"><span style="font-weight:900;font-size:14px;letter-spacing:4px">SCROLL TO EXPLORE PROJECTS</span><div class="scroll-line"></div></div>
 </div>
- 
+
 <div id="mainContent">
   <nav class="topnav">
     <div class="nav-logo"><img src="assets/logo.png" alt="Eurobond ACP"></div>
+    <div class="nav-links">
+      <a href="https://eurobondacp.com/" target="_blank" class="nav-link">Home</a>
+      <a href="#" class="nav-link active">Project Showcase</a>
+    </div>
   </nav>
- 
+
   <div class="sec-head">
     <div class="sec-eyebrow">Architectural Cladding Specialists</div>
     <div class="sec-title">PROJECT <span>SHOWCASE</span></div>
@@ -163,7 +171,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
       <div class="ss"><div class="ss-n" id="sS">0</div><div class="ss-l">Lakh Sq.mt</div></div>
     </div>
   </div>
- 
+
   <div class="controls">
     <span class="ctrl-lbl">Zone</span>
     <div class="sel-wrap">
@@ -203,7 +211,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
       <input type="text" id="srch" placeholder="Search name, city, colour..." oninput="applyFilters()">
     </div>
   </div>
- 
+
   <div class="grid-wrap">
     <div class="grid-hd">
       <div class="grid-hd-t" id="gTitle">All Projects</div>
@@ -212,9 +220,9 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
     <div class="proj-grid" id="pGrid"><div class="empty-st">Loading projects...</div></div>
   </div>
 </div>
- 
+
 <div id="lb"><div class="lb-panel" id="lbPanel"></div></div>
- 
+
 <div id="fsViewer">
   <button class="fs-close" onclick="closeFs()">&#10005;</button>
   <button class="fs-prev" onclick="fsNav(-1)">&#8592;</button>
@@ -222,7 +230,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
   <button class="fs-next" onclick="fsNav(1)">&#8594;</button>
   <div class="fs-counter" id="fsCounter"></div>
 </div>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL='https://usugnffkjvdcqgankkfv.supabase.co';
@@ -232,16 +240,16 @@ const BADGE={commercial:'bc',industrial:'bi',residential:'br',convention:'bn',ai
 const LABEL={commercial:'Commercial',industrial:'Industrial',residential:'Residential',convention:'Convention',airport:'Airport',metro:'Metro',hospital:'Hospital',hospitality:'Hospitality'};
 let allProjects=[],curZone='all',curState='all',curLocation='all',curCat='all',curProduct='all',curSearch='';
 let _lbProject=null,_activeThumb=0,_fsPhotos=[],_fsIdx=0;
- 
+
 function animNum(el,to){let n=0;const s=Math.max(1,Math.ceil(to/40));const iv=setInterval(()=>{n=Math.min(n+s,to);el.textContent=n;if(n>=to)clearInterval(iv)},25)}
 const statsObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const locs=[...new Set(allProjects.map(p=>p.city))].length;const sqft=allProjects.reduce((a,p)=>{const n=parseFloat((p.qty||'').replace(/[^0-9.]/g,''));return a+(isNaN(n)?0:n)},0);animNum(document.getElementById('sP'),allProjects.length);animNum(document.getElementById('sC'),locs);animNum(document.getElementById('sS'),Math.round(sqft/100000));statsObs.disconnect()}})},{threshold:0.3});
- 
+
 async function loadProjects(){
   const{data,error}=await sb.from('projects').select('*').order('created_at',{ascending:false});
   if(error){document.getElementById('pGrid').innerHTML='<div class="empty-st">Error loading. Please refresh.</div>';return}
   allProjects=data||[];buildFilters();renderGrid();statsObs.observe(document.querySelector('.sec-head'));
 }
- 
+
 function updateStateDrop(){
   const zv=document.getElementById('zoneDrop').value;
   const f=zv==='all'?allProjects:allProjects.filter(p=>(p.zone||'').trim()===zv);
@@ -250,7 +258,7 @@ function updateStateDrop(){
   sd.innerHTML=states.map(s=>`<option value="${s}">${s==='all'?'All States':s}</option>`).join('');
   if(states.includes(prev))sd.value=prev;
 }
- 
+
 function updateCityDrop(){
   const zv=document.getElementById('zoneDrop').value;const sv=document.getElementById('stateDrop').value;
   let f=allProjects;
@@ -261,14 +269,14 @@ function updateCityDrop(){
   cd.innerHTML=cities.map(c=>`<option value="${c}">${c==='all'?'All Cities':c}</option>`).join('');
   if(cities.includes(prev))cd.value=prev;
 }
- 
+
 function buildFilters(){
   updateStateDrop();updateCityDrop();
   const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
   const ct=document.getElementById('catTabs');ct.innerHTML='';
   cats.forEach(c=>{const b=document.createElement('button');b.className='ftab'+(c==='all'?' on':'');b.textContent=c==='all'?'All':(LABEL[c]||c);b.onclick=()=>{curCat=c;document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderGrid()};ct.appendChild(b)});
 }
- 
+
 function applyFilters(changed){
   if(changed==='product'){curProduct=document.getElementById('productDrop').value;renderGrid();return;}
   if(changed==='zone'){updateStateDrop();updateCityDrop();}
@@ -279,7 +287,7 @@ function applyFilters(changed){
   curSearch=document.getElementById('srch').value.toLowerCase();
   renderGrid();
 }
- 
+
 function getList(){
   return allProjects.filter(p=>{
     const zOk=curZone==='all'||(p.zone||'').trim()===curZone;
@@ -291,7 +299,7 @@ function getList(){
     return zOk&&stOk&&lOk&&cOk&&prOk&&sOk;
   });
 }
- 
+
 function renderGrid(){
   const list=getList();
   let title='All Projects';
@@ -325,7 +333,7 @@ function renderGrid(){
       <div class="pfoot"><span class="pview">View Gallery &#8594;</span><span style="font-size:13px;color:#000000;font-weight:700">${p.city||''}</span></div>
     </div>`).join('');
 }
- 
+
 function openGallery(id){
   const p=allProjects.find(x=>x.id===id);if(!p)return;
   _lbProject=p;_activeThumb=0;
@@ -348,7 +356,7 @@ function openGallery(id){
     <div class="lb-colours"><div class="lb-cl">Colour Codes Applied</div><div class="lb-chips">${(p.colours||[]).map(c=>`<div class="lb-chip">${c}</div>`).join('')}</div></div>`;
   const lb=document.getElementById('lb');lb.classList.add('open');lb.scrollTop=0;
 }
- 
+
 function switchPhoto(idx){
   _activeThumb=idx;
   const img=document.getElementById('mainImg');
@@ -356,13 +364,13 @@ function switchPhoto(idx){
   setTimeout(()=>{img.src=(_lbProject.photos||[])[idx];img.onclick=()=>openFs(idx);img.style.opacity='1'},200);
   document.querySelectorAll('.lb-thumb').forEach((el,i)=>el.classList.toggle('active',i===idx));
 }
- 
+
 function closeLb(){document.getElementById('lb').classList.remove('open')}
 function openFs(idx){_fsPhotos=_lbProject.photos||[];_fsIdx=idx;renderFs();document.getElementById('fsViewer').classList.add('open')}
 function renderFs(){const img=document.getElementById('fsImg');img.style.opacity='0';setTimeout(()=>{img.src=_fsPhotos[_fsIdx];img.style.opacity='1'},100);document.getElementById('fsCounter').textContent=(_fsIdx+1)+' / '+_fsPhotos.length}
 function fsNav(dir){_fsIdx=(_fsIdx+dir+_fsPhotos.length)%_fsPhotos.length;renderFs()}
 function closeFs(){document.getElementById('fsViewer').classList.remove('open')}
- 
+
 document.addEventListener('keydown',e=>{
   if(document.getElementById('fsViewer').classList.contains('open')){if(e.key==='Escape')closeFs();if(e.key==='ArrowRight')fsNav(1);if(e.key==='ArrowLeft')fsNav(-1);return}
   if(e.key==='Escape')closeLb();

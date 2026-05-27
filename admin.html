@@ -8,7 +8,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-height:100vh}
- 
+
 /* ── LOGIN ── */
 #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#05050f}
 .login-box{background:#ffffff;border:1px solid #93c5fd;border-radius:8px;padding:40px;width:100%;max-width:380px;text-align:center}
@@ -21,7 +21,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
 .btn-primary{width:100%;background:#1a56a0;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:13px;border-radius:4px;cursor:pointer;transition:background 0.2s;margin-top:4px}
 .btn-primary:hover{background:#2468b8}
 .login-err{color:#e74c3c;font-size:12px;margin-top:10px;display:none}
- 
+
 /* ── ADMIN LAYOUT ── */
 #adminPanel{display:none;min-height:100vh}
 .admin-nav{background:#ffffff;border-bottom:1px solid rgba(26,86,160,0.25);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100}
@@ -31,15 +31,15 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
 .nav-tag{font-size:12px;letter-spacing:2px;color:#000000;text-transform:uppercase;font-weight:700}
 .btn-logout{background:transparent;border:1px solid #e5e7eb;color:#6b7280;font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:2px;cursor:pointer;transition:all 0.2s}
 .btn-logout:hover{border-color:#e74c3c;color:#e74c3c}
- 
+
 .admin-body{max-width:900px;margin:0 auto;padding:36px 24px 60px}
- 
+
 /* ── TABS ── */
 .admin-tabs{display:flex;gap:8px;margin-bottom:28px}
 .atab{background:transparent;border:2px solid #93c5fd;color:#000000;font-family:'Rajdhani',sans-serif;font-weight:800;font-size:14px;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;border-radius:6px;cursor:pointer;transition:all 0.2s}
 .atab:hover{border-color:#4a90d9;color:#4a90d9}
 .atab.on{background:#1e63bb;border-color:#1e63bb;color:#fff}
- 
+
 /* ── FORM ── */
 .form-card{background:#ffffff;border:1px solid #bfdbfe;border-radius:6px;padding:28px}
 .form-title{font-family:'Bebas Neue',cursive;font-size:42px;letter-spacing:2px;color:#000000;margin-bottom:10px;font-weight:900}
@@ -53,7 +53,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
 .form-group input::placeholder,.form-group textarea::placeholder{color:#9ca3af}
 .form-group select option{background:#ffffff;color:#111827}
 .form-group textarea{resize:vertical;min-height:70px}
- 
+
 /* ── PHOTO UPLOAD ── */
 .upload-zone{border:2px dashed #93c5fd;border-radius:6px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;background:#eff6ff;margin-bottom:14px}
 .upload-zone:hover,.upload-zone.drag{border-color:#4a90d9;background:#dbeafe}
@@ -65,22 +65,22 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
 .preview-item{position:relative;border-radius:4px;overflow:hidden;height:80px;background:#f1f5f9}
 .preview-item img{width:100%;height:100%;object-fit:cover}
 .preview-remove{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.8);color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
- 
+
 /* ── PROGRESS ── */
 .progress-wrap{display:none;margin-bottom:14px}
 .progress-label{font-size:11px;color:#6b7280;letter-spacing:1px;margin-bottom:6px}
 .progress-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;background:#4a90d9;border-radius:2px;transition:width 0.3s;width:0}
- 
+
 /* ── STATUS ── */
 .status-msg{display:none;padding:12px 16px;border-radius:4px;font-size:12px;letter-spacing:1px;margin-bottom:14px}
 .status-success{background:#f0fdf4;border:1px solid #86efac;color:#16a34a}
 .status-error{background:#fef2f2;border:1px solid #fca5a5;color:#dc2626}
- 
+
 .btn-submit{background:#1d4ed8;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:900;font-size:17px;letter-spacing:2px;text-transform:uppercase;padding:18px 36px;border-radius:6px;cursor:pointer;transition:all 0.2s}
 .btn-submit:hover{background:#2468b8}
 .btn-submit:disabled{background:#333;cursor:not-allowed}
- 
+
 /* ── PROJECTS LIST ── */
 .projects-list{display:flex;flex-direction:column;gap:10px}
 .proj-item{background:#ffffff;border:1px solid #bfdbfe;border-radius:4px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center}
@@ -88,13 +88,15 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
 .proj-item-name{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:1.5px;color:#000000;font-weight:900}
 .proj-item-meta{font-size:13px;color:#000000;letter-spacing:1px;font-weight:600}
 .proj-item-right{display:flex;gap:8px}
+.btn-edit{background:transparent;border:1px solid rgba(29,78,216,0.4);color:#1d4ed8;font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:2px;cursor:pointer;transition:all 0.2s;margin-right:4px}
+.btn-edit:hover{background:#eff6ff;border-color:#1d4ed8}
 .btn-delete{background:transparent;border:1px solid rgba(231,76,60,0.3);color:rgba(231,76,60,0.7);font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:2px;cursor:pointer;transition:all 0.2s}
 .btn-delete:hover{border-color:#e74c3c;color:#e74c3c}
 .loading-txt{text-align:center;padding:40px;color:#9ca3af;font-size:12px;letter-spacing:3px;text-transform:uppercase}
 </style>
 </head>
 <body>
- 
+
 <!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
@@ -105,7 +107,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
     <div class="login-err" id="loginErr">Wrong password. Try again.</div>
   </div>
 </div>
- 
+
 <!-- ADMIN PANEL -->
 <div id="adminPanel">
   <nav class="admin-nav">
@@ -115,21 +117,21 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
       <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </nav>
- 
+
   <div class="admin-body">
     <div class="admin-tabs">
       <button class="atab on" onclick="showTab('add',this)">Add New Project</button>
       <button class="atab" onclick="showTab('list',this)">All Projects</button>
     </div>
- 
+
     <!-- ADD PROJECT TAB -->
     <div id="tabAdd">
       <div class="form-card">
         <div class="form-title">Add New Project</div>
         <div class="form-sub">Fill all details and upload photos — automatically shows on website</div>
- 
+
         <div id="statusMsg" class="status-msg"></div>
- 
+
         <div class="form-grid">
           <div class="form-group full">
             <label>Project Name *</label>
@@ -213,7 +215,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
             </select>
           </div>
         </div>
- 
+
         <!-- PHOTO UPLOAD -->
         <div class="form-group" style="margin-bottom:14px">
           <label>Project Photos *</label>
@@ -228,19 +230,19 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
         </div>
         <input type="file" id="photoInput" multiple accept="image/*" onchange="handleFiles(this.files)">
         <div class="photo-previews" id="photoPreviews"></div>
- 
- 
+
+
         <div class="progress-wrap" id="progressWrap">
           <div class="progress-label" id="progressLabel">Uploading... 0%</div>
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         </div>
- 
+
         <button class="btn-submit" id="submitBtn" onclick="submitProject()">
           Save Project → Go Live on Website
         </button>
       </div>
     </div>
- 
+
     <!-- PROJECTS LIST TAB -->
     <div id="tabList" style="display:none">
       <div class="form-card">
@@ -253,7 +255,7 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
     </div>
   </div>
 </div>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ════════════════════════════════════════════════════
@@ -263,10 +265,10 @@ const SUPABASE_URL = 'https://usugnffkjvdcqgankkfv.supabase.co';        // Your 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzdWduZmZranZkY3FnYW5ra2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDk0OTcsImV4cCI6MjA5NTE4NTQ5N30.LfdDmiYiWHrZJeN1yLD_7O3r-ecK2BVzCR7Pc2fOss4';   // Your anon public key here
 const ADMIN_PASSWORD = 'eurobond2024';            // Change this to your password
 // ════════════════════════════════════════════════════
- 
+
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let selectedFiles = [];
- 
+
 // ── LOGIN ──
 function doLogin(){
   const pass = document.getElementById('loginPass').value;
@@ -286,7 +288,7 @@ if(sessionStorage.getItem('admin')==='1'){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminPanel').style.display='block';
 }
- 
+
 // ── TABS ──
 function showTab(tab, btn){
   document.getElementById('tabAdd').style.display = tab==='add'?'block':'none';
@@ -295,7 +297,7 @@ function showTab(tab, btn){
   btn.classList.add('on');
   if(tab==='list') loadProjects();
 }
- 
+
 // ── FILE HANDLING ──
 function handleFiles(files){
   for(const f of files) selectedFiles.push(f);
@@ -318,8 +320,8 @@ function removePhoto(idx){
   selectedFiles.splice(idx,1);
   renderPreviews();
 }
- 
- 
+
+
 // ── SHOW STATUS ──
 function showStatus(msg, type='success'){
   const el = document.getElementById('statusMsg');
@@ -328,14 +330,14 @@ function showStatus(msg, type='success'){
   el.style.display = 'block';
   if(type==='success') setTimeout(()=>el.style.display='none', 4000);
 }
- 
+
 // ── SUBMIT PROJECT ──
 async function submitProject(){
   const name = document.getElementById('fName').value.trim();
   const location = document.getElementById('fLocation').value.trim();
   const city = document.getElementById('fCity').value.trim();
   const cat = document.getElementById('fCat').value;
- 
+
   const zoneCheck = document.getElementById('fZone').value;
   if(!name || !city || !cat || !zoneCheck){
     showStatus('Please fill Name, City, Category and select Zone!', 'error');
@@ -345,18 +347,18 @@ async function submitProject(){
     showStatus('Please select at least 1 photo!', 'error');
     return;
   }
- 
+
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.textContent = 'Uploading...';
- 
+
   // Upload photos
   const photoUrls = [];
   const prog = document.getElementById('progressWrap');
   const fill = document.getElementById('progressFill');
   const lbl = document.getElementById('progressLabel');
   prog.style.display = 'block';
- 
+
   for(let i=0; i<selectedFiles.length; i++){
     const f = selectedFiles[i];
     const ext = f.name.split('.').pop();
@@ -369,13 +371,13 @@ async function submitProject(){
     fill.style.width = pct+'%';
     lbl.textContent = `Uploading photos... ${pct}%`;
   }
- 
+
   // Save to database
   fill.style.width = '90%';
   lbl.textContent = 'Saving project details...';
- 
+
   let videoUrl = null;
- 
+
   const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
   const zoneVal = document.getElementById('fZone').value || '';
   const {error} = await sb.from('projects').insert({
@@ -395,9 +397,9 @@ async function submitProject(){
     photos: photoUrls,
     video: videoUrl
   });
- 
+
   fill.style.width = '100%';
- 
+
   if(error){
     showStatus('Failed to save: '+error.message, 'error');
   } else {
@@ -411,11 +413,11 @@ async function submitProject(){
     renderPreviews();
     setTimeout(()=>{prog.style.display='none';fill.style.width='0'},1000);
   }
- 
+
   btn.disabled=false;
   btn.textContent='Save Project → Go Live on Website';
 }
- 
+
 // ── LOAD PROJECTS ──
 async function loadProjects(){
   const list = document.getElementById('projectsList');
@@ -430,11 +432,64 @@ async function loadProjects(){
         <div class="proj-item-meta">${p.location}, ${p.city} &nbsp;|&nbsp; ${p.category} &nbsp;|&nbsp; ${(p.photos||[]).length} photos</div>
       </div>
       <div class="proj-item-right">
+        <button class="btn-edit" onclick="editProject(${p.id})">Edit</button>
         <button class="btn-delete" onclick="deleteProject(${p.id},'${p.name}')">Delete</button>
       </div>
     </div>`).join('');
 }
- 
+
+// ── EDIT PROJECT ──
+async function editProject(id){
+  const {data, error} = await sb.from('projects').select('*').eq('id',id).single();
+  if(error || !data){ alert('Error loading project!'); return; }
+  
+  // Switch to Add tab
+  showTab('add', document.querySelector('.atab'));
+  
+  // Fill form with existing data
+  document.getElementById('fName').value = data.name || '';
+  document.getElementById('fZone').value = data.zone || '';
+  document.getElementById('fState').value = data.state || '';
+  document.getElementById('fCity').value = data.city || '';
+  document.getElementById('fLocation').value = data.location || '';
+  document.getElementById('fCat').value = data.category || '';
+  document.getElementById('fQty').value = data.qty || '';
+  document.getElementById('fGrade').value = data.grade || '';
+  document.getElementById('fColours').value = (data.colours||[]).join(', ');
+  document.getElementById('fArchitect').value = data.architect || '';
+  document.getElementById('fFabricator').value = data.fabricator || '';
+  document.getElementById('fConsultant').value = data.consultant || '';
+  document.getElementById('fProduct').value = data.product || '';
+  
+  // Change submit button to Update
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Update Project';
+  btn.onclick = async () => {
+    const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const {error: updateErr} = await sb.from('projects').update({
+      name: document.getElementById('fName').value.trim(),
+      zone: document.getElementById('fZone').value,
+      location: document.getElementById('fLocation').value.trim(),
+      city: document.getElementById('fCity').value.trim(),
+      state: document.getElementById('fState').value.trim(),
+      category: document.getElementById('fCat').value,
+      qty: document.getElementById('fQty').value.trim(),
+      grade: document.getElementById('fGrade').value.trim(),
+      colours,
+      architect: document.getElementById('fArchitect').value.trim(),
+      fabricator: document.getElementById('fFabricator').value.trim(),
+      consultant: document.getElementById('fConsultant').value.trim(),
+      product: document.getElementById('fProduct').value,
+    }).eq('id', id);
+    if(updateErr){ showStatus('Update failed: '+updateErr.message, 'error'); return; }
+    showStatus('✅ Project updated successfully!', 'success');
+    btn.textContent = 'Save Project → Go Live on Website';
+    btn.onclick = submitProject;
+  };
+  
+  showStatus('✏️ Editing: '+data.name+' — Make changes and click Update Project', 'success');
+}
+
 // ── DELETE PROJECT ──
 async function deleteProject(id, name){
   if(!confirm(`Delete "${name}"?`)) return;
