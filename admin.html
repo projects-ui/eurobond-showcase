@@ -268,6 +268,7 @@ const ADMIN_PASSWORD = 'eurobond2024';            // Change this to your passwor
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let selectedFiles = [];
+let _editingId = null;
 
 // ── LOGIN ──
 function doLogin(){
@@ -343,7 +344,8 @@ async function submitProject(){
     showStatus('Please fill Name, City, Category and select Zone!', 'error');
     return;
   }
-  if(selectedFiles.length === 0){
+  // If editing, photos not required (keep existing)
+  if(!_editingId && selectedFiles.length === 0){
     showStatus('Please select at least 1 photo!', 'error');
     return;
   }
@@ -380,7 +382,8 @@ async function submitProject(){
 
   const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
   const zoneVal = document.getElementById('fZone').value || '';
-  const {error} = await sb.from('projects').insert({
+  
+  const projectData = {
     name,
     zone: zoneVal,
     location,
@@ -394,16 +397,32 @@ async function submitProject(){
     fabricator: document.getElementById('fFabricator').value.trim(),
     consultant: document.getElementById('fConsultant').value.trim(),
     product: document.getElementById('fProduct').value,
-    photos: photoUrls,
     video: videoUrl
-  });
+  };
+  
+  // Only update photos if new ones were selected
+  if(photoUrls.length > 0) projectData.photos = photoUrls;
+
+  let error;
+  if(_editingId){
+    // UPDATE existing project
+    const res = await sb.from('projects').update(projectData).eq('id', _editingId);
+    error = res.error;
+  } else {
+    // INSERT new project
+    projectData.photos = photoUrls;
+    const res = await sb.from('projects').insert(projectData);
+    error = res.error;
+  }
 
   fill.style.width = '100%';
 
   if(error){
     showStatus('Failed to save: '+error.message, 'error');
   } else {
-    showStatus('✅ Project saved! Now live on website!', 'success');
+    const msg = _editingId ? '✅ Project updated successfully!' : '✅ Project saved! Now live on website!';
+    showStatus(msg, 'success');
+    _editingId = null;
     // Reset form
     ['fName','fLocation','fCity','fState','fQty','fGrade','fColours','fArchitect','fFabricator','fConsultant'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('fZone').value='';
@@ -411,6 +430,7 @@ async function submitProject(){
     document.getElementById('fProduct').value='';
     selectedFiles=[];
     renderPreviews();
+    document.getElementById('submitBtn').textContent='Save Project → Go Live on Website';
     setTimeout(()=>{prog.style.display='none';fill.style.width='0'},1000);
   }
 
@@ -443,8 +463,10 @@ async function editProject(id){
   const {data, error} = await sb.from('projects').select('*').eq('id',id).single();
   if(error || !data){ alert('Error loading project!'); return; }
   
+  _editingId = id;
+  
   // Switch to Add tab
-  showTab('add', document.querySelector('.atab'));
+  showTab('add', document.querySelectorAll('.atab')[0]);
   
   // Fill form with existing data
   document.getElementById('fName').value = data.name || '';
@@ -461,33 +483,11 @@ async function editProject(id){
   document.getElementById('fConsultant').value = data.consultant || '';
   document.getElementById('fProduct').value = data.product || '';
   
-  // Change submit button to Update
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = 'Update Project';
-  btn.onclick = async () => {
-    const colours = (document.getElementById('fColours').value||'').split(',').map(s=>s.trim()).filter(Boolean);
-    const {error: updateErr} = await sb.from('projects').update({
-      name: document.getElementById('fName').value.trim(),
-      zone: document.getElementById('fZone').value,
-      location: document.getElementById('fLocation').value.trim(),
-      city: document.getElementById('fCity').value.trim(),
-      state: document.getElementById('fState').value.trim(),
-      category: document.getElementById('fCat').value,
-      qty: document.getElementById('fQty').value.trim(),
-      grade: document.getElementById('fGrade').value.trim(),
-      colours,
-      architect: document.getElementById('fArchitect').value.trim(),
-      fabricator: document.getElementById('fFabricator').value.trim(),
-      consultant: document.getElementById('fConsultant').value.trim(),
-      product: document.getElementById('fProduct').value,
-    }).eq('id', id);
-    if(updateErr){ showStatus('Update failed: '+updateErr.message, 'error'); return; }
-    showStatus('✅ Project updated successfully!', 'success');
-    btn.textContent = 'Save Project → Go Live on Website';
-    btn.onclick = submitProject;
-  };
+  // Change button text
+  document.getElementById('submitBtn').textContent = 'Update Project → Save Changes';
   
-  showStatus('✏️ Editing: '+data.name+' — Make changes and click Update Project', 'success');
+  showStatus('✏️ Editing: '+data.name+' — Make changes and click Update', 'success');
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 // ── DELETE PROJECT ──
