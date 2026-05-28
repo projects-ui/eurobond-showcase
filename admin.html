@@ -361,14 +361,24 @@ async function submitProject(){
   const lbl = document.getElementById('progressLabel');
   prog.style.display = 'block';
 
+  // Upload to Cloudinary
+  const CLOUDINARY_CLOUD = 'drgxez5tx';
+  const CLOUDINARY_PRESET = 'eurobond_public';
+  
   for(let i=0; i<selectedFiles.length; i++){
     const f = selectedFiles[i];
-    const ext = f.name.split('.').pop();
-    const path = `${name.toLowerCase().replace(/\s+/g,'-')}/${Date.now()}-${i}.${ext}`;
-    const {data, error} = await sb.storage.from('project-photos').upload(path, f, {upsert:true});
-    if(error){ showStatus('Photo upload failed: '+error.message,'error'); btn.disabled=false; btn.textContent='Save Project → Go Live on Website'; return; }
-    const {data:{publicUrl}} = sb.storage.from('project-photos').getPublicUrl(path);
-    photoUrls.push(publicUrl);
+    const formData = new FormData();
+    formData.append('file', f);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
+    formData.append('folder', 'eurobond-projects');
+    
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if(!data.secure_url){ showStatus('Photo upload failed: '+JSON.stringify(data),'error'); btn.disabled=false; btn.textContent='Save Project → Go Live on Website'; return; }
+    photoUrls.push(data.secure_url);
     const pct = Math.round(((i+1)/selectedFiles.length)*80);
     fill.style.width = pct+'%';
     lbl.textContent = `Uploading photos... ${pct}%`;
