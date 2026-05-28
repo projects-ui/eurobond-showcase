@@ -190,7 +190,9 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#000000;overflow
     <span class="ctrl-lbl">City</span>
     <div class="sel-wrap"><select id="locationDrop" onchange="applyFilters('city')"><option value="all">All Cities</option></select></div>
     <span class="ctrl-lbl">Category</span>
-    <div id="catTabs" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <div class="sel-wrap"><select id="catDrop" onchange="applyFilters('cat')"><option value="all">All Categories</option></select></div>
+    <span class="ctrl-lbl">Subcategory</span>
+    <div class="sel-wrap"><select id="subCatDrop" onchange="applyFilters('subcat')"><option value="all">All Subcategories</option></select></div>
     <span class="ctrl-lbl">Product</span>
     <div class="sel-wrap">
       <select id="productDrop" onchange="applyFilters('product')">
@@ -239,7 +241,7 @@ const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const BADGE={commercial:'bc',industrial:'bi',residential:'br',convention:'bn',airport:'ba',metro:'bm',hospital:'bh',hospitality:'bh'};
 const LABEL={commercial:'Commercial',industrial:'Industrial',residential:'Residential',convention:'Convention',airport:'Airport',metro:'Metro',hospital:'Hospital',hospitality:'Hospitality'};
-let allProjects=[],curZone='all',curState='all',curLocation='all',curCat='all',curProduct='all',curSearch='';
+let allProjects=[],curZone='all',curState='all',curLocation='all',curCat='all',curSubCat='all',curProduct='all',curSearch='';
 let _lbProject=null,_activeThumb=0,_fsPhotos=[],_fsIdx=0;
 
 function animNum(el,to){let n=0;const s=Math.max(1,Math.ceil(to/40));const iv=setInterval(()=>{n=Math.min(n+s,to);el.textContent=n;if(n>=to)clearInterval(iv)},25)}
@@ -271,20 +273,43 @@ function updateCityDrop(){
   if(cities.includes(prev))cd.value=prev;
 }
 
-function buildFilters(){
+let allCategories=[];
+
+async function buildFilters(){
   updateStateDrop();updateCityDrop();
-  const cats=['all',...[...new Set(allProjects.map(p=>p.category))]];
-  const ct=document.getElementById('catTabs');ct.innerHTML='';
-  cats.forEach(c=>{const b=document.createElement('button');b.className='ftab'+(c==='all'?' on':'');b.textContent=c==='all'?'All':(LABEL[c]||c);b.onclick=()=>{curCat=c;document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderGrid()};ct.appendChild(b)});
+  
+  // Load categories from Supabase
+  const {data:cats} = await sb.from('categories').select('*').order('name');
+  allCategories = cats || [];
+  
+  // Build category dropdown
+  const cd = document.getElementById('catDrop');
+  const parentCats = allCategories.filter(c=>!c.parent_id);
+  cd.innerHTML = '<option value="all">All Categories</option>' + 
+    parentCats.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  
+  // Build subcategory dropdown
+  updateSubCatDrop();
+}
+
+function updateSubCatDrop(){
+  const catId = document.getElementById('catDrop').value;
+  const sd = document.getElementById('subCatDrop');
+  const subs = catId==='all' ? allCategories.filter(c=>c.parent_id) : allCategories.filter(c=>c.parent_id==catId);
+  sd.innerHTML = '<option value="all">All Subcategories</option>' + 
+    subs.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 }
 
 function applyFilters(changed){
   if(changed==='product'){curProduct=document.getElementById('productDrop').value;renderGrid();return;}
   if(changed==='zone'){updateStateDrop();updateCityDrop();}
   else if(changed==='state'){updateCityDrop();}
+  else if(changed==='cat'){updateSubCatDrop();}
   curZone=document.getElementById('zoneDrop').value;
   curState=document.getElementById('stateDrop').value;
   curLocation=document.getElementById('locationDrop').value;
+  curCat=document.getElementById('catDrop').value;
+  curSubCat=document.getElementById('subCatDrop').value;
   curSearch=document.getElementById('srch').value.toLowerCase();
   renderGrid();
 }
@@ -294,10 +319,13 @@ function getList(){
     const zOk=curZone==='all'||(p.zone||'').trim()===curZone;
     const stOk=curState==='all'||(p.state||'').trim()===curState;
     const lOk=curLocation==='all'||(p.city||'').trim()===curLocation;
-    const cOk=curCat==='all'||p.category===curCat;
+    const catName=curCat==='all'?null:(allCategories.find(c=>c.id==curCat)||{}).name;
+    const subCatName=curSubCat==='all'?null:(allCategories.find(c=>c.id==curSubCat)||{}).name;
+    const cOk=!catName||(p.category||'').toLowerCase()===catName.toLowerCase();
+    const scOk=!subCatName||(p.subcategory||'').toLowerCase()===subCatName.toLowerCase();
     const prOk=curProduct==='all'||(p.product||'')===curProduct;
     const sOk=!curSearch||p.name.toLowerCase().includes(curSearch)||(p.location||'').toLowerCase().includes(curSearch)||(p.city||'').toLowerCase().includes(curSearch)||(p.colours||[]).join(' ').toLowerCase().includes(curSearch)||(p.architect||'').toLowerCase().includes(curSearch);
-    return zOk&&stOk&&lOk&&cOk&&prOk&&sOk;
+    return zOk&&stOk&&lOk&&cOk&&scOk&&prOk&&sOk;
   });
 }
 

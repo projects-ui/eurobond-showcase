@@ -162,17 +162,17 @@ body{font-family:'Rajdhani',sans-serif;background:#f0f4f8;color:#111827;min-heig
           </div>
           <div class="form-group">
             <label>Category *</label>
-            <select id="fCat">
+            <select id="fCat" onchange="loadSubCategories()">
               <option value="">Select category</option>
-              <option value="commercial">Commercial</option>
-              <option value="convention">Convention</option>
-              <option value="industrial">Industrial</option>
-              <option value="residential">Residential</option>
-              <option value="hospital">Hospital</option>
-              <option value="airport">Airport</option>
-              <option value="metro">Metro</option>
-              <option value="hospitality">Hospitality</option>
             </select>
+            <button type="button" onclick="addNewCategory()" style="margin-top:6px;background:#eff6ff;border:1.5px solid #93c5fd;color:#1d4ed8;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;padding:6px 14px;border-radius:4px;cursor:pointer;">+ Add New Category</button>
+          </div>
+          <div class="form-group">
+            <label>Subcategory</label>
+            <select id="fSubCat">
+              <option value="">Select subcategory</option>
+            </select>
+            <button type="button" onclick="addNewSubCategory()" style="margin-top:6px;background:#eff6ff;border:1.5px solid #93c5fd;color:#1d4ed8;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;padding:6px 14px;border-radius:4px;cursor:pointer;">+ Add New Subcategory</button>
           </div>
           <div class="form-group">
             <label>Quantity (Sq.mt)</label>
@@ -275,6 +275,50 @@ const CL_CLOUD = 'drgxez5tx';
 const CL_KEY = '787985199291651';
 const CL_SECRET = 'C8yIs2mjmeak8I80i_tJvwc1KVY';
 
+// ── CATEGORIES ──
+let allAdminCats = [];
+
+async function loadCategories(){
+  const {data} = await sb.from('categories').select('*').order('name');
+  allAdminCats = data || [];
+  const catSel = document.getElementById('fCat');
+  const parentCats = allAdminCats.filter(c=>!c.parent_id);
+  catSel.innerHTML = '<option value="">Select category</option>' + 
+    parentCats.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+  loadSubCategories();
+}
+
+function loadSubCategories(){
+  const catName = document.getElementById('fCat').value;
+  const subSel = document.getElementById('fSubCat');
+  const parentCat = allAdminCats.find(c=>c.name===catName&&!c.parent_id);
+  const subs = parentCat ? allAdminCats.filter(c=>c.parent_id===parentCat.id) : [];
+  subSel.innerHTML = '<option value="">Select subcategory</option>' + 
+    subs.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+}
+
+async function addNewCategory(){
+  const name = prompt('Enter new category name:');
+  if(!name||!name.trim()) return;
+  const {error} = await sb.from('categories').insert({name:name.trim(), parent_id:null});
+  if(error){ alert('Error: '+error.message); return; }
+  alert('✅ Category "'+name+'" added!');
+  loadCategories();
+}
+
+async function addNewSubCategory(){
+  const catName = document.getElementById('fCat').value;
+  if(!catName){ alert('Please select a category first!'); return; }
+  const name = prompt('Enter new subcategory name:');
+  if(!name||!name.trim()) return;
+  const parentCat = allAdminCats.find(c=>c.name===catName&&!c.parent_id);
+  if(!parentCat){ alert('Category not found!'); return; }
+  const {error} = await sb.from('categories').insert({name:name.trim(), parent_id:parentCat.id});
+  if(error){ alert('Error: '+error.message); return; }
+  alert('✅ Subcategory "'+name+'" added!');
+  loadCategories();
+}
+
 // ── LOGIN ──
 function doLogin(){
   const pass = document.getElementById('loginPass').value;
@@ -282,6 +326,7 @@ function doLogin(){
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
     sessionStorage.setItem('admin','1');
+    loadCategories();
   } else {
     document.getElementById('loginErr').style.display = 'block';
   }
@@ -293,6 +338,7 @@ function doLogout(){
 if(sessionStorage.getItem('admin')==='1'){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminPanel').style.display='block';
+  loadCategories();
 }
 
 // ── TABS ──
@@ -443,6 +489,7 @@ async function submitProject(){
     document.getElementById('fZone').value='';
     document.getElementById('fCat').value='';
     document.getElementById('fProduct').value='';
+    document.getElementById('fSubCat').value='';
     selectedFiles=[];
     renderPreviews();
     document.getElementById('submitBtn').textContent='Save Project → Go Live on Website';
